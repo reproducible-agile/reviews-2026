@@ -22,17 +22,16 @@ RUN apt-get -y update && apt-get install -y \
    && rm -rf /var/lib/apt/lists/
 
 ## Run install.R script
-COPY install.R ${HOME}
-RUN R --quiet -f install.R
+COPY install.R /tmp/install.R
+RUN R --quiet -f /tmp/install.R
 
 ## Copies all repo files into the Docker Container
-USER root
-RUN pip install -U "jupyter-server<2.0.0" # notebook 7 is not compatible. Have to downgrade
-COPY . ${HOME}
-RUN chown -R ${NB_USER} ${HOME}
+COPY . /home/${NB_USER}/
+RUN chown -R ${NB_USER} /home/${NB_USER}
 
 ## Become normal user again
 USER ${NB_USER}
+WORKDIR /home/${NB_USER}
 
 ## Export system libraries and R package versions
 RUN dpkg --list > dpkg-list.txt && \

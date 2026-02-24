@@ -23,6 +23,10 @@ The end of this document contains a hidden code snippet to only render informati
 
 
 ```{r load_libraries, message=FALSE, warning=FALSE, include=FALSE}
+# Load .Renviron from working directory (needed when running in Docker where the
+# home directory may differ from the mounted project directory)
+if(file.exists(".Renviron")) readRenviron(".Renviron")
+
 library("pdftools")
 library("stringr")
 library("tidyverse")
@@ -45,25 +49,107 @@ library("tabulapdf")
 ```
 
 ```{r seed, echo=FALSE}
-set.seed(28) # 28th AGILE!
+set.seed(29) # 29th AGILE!
+```
+
+```{r conference_id, echo=params$private_info}
+# get this from the URL when logged into EasyChair, e.g., https://easychair.org/conferences2/submissions?a=36110000
+conference_id <- "36110000"
 ```
 
 ```{r easychair_login, echo=params$private_info}
+easychair_logged_in <- FALSE
+ec_ua <- httr::user_agent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+
 if(is.na(Sys.getenv("easychair_username", unset = NA)) || is.na(Sys.getenv("easychair_password", unset = NA))) {
-  stop("Provide login details for EasyChair (e.g., in a file `.Renviron` - make sure to adjust read persmissions so that no user but you/root may access the file!) in environment variables",
-       "`easychair_username` and `easychair_password`")
+  stop("Provide login details for EasyChair (e.g., in a file `.Renviron` - make sure to adjust read permissions so that no user but you/root may access the file!) in environment variables",
+       " `easychair_username` and `easychair_password`")
 }
 
-# with help from https://github.com/kaytwo/easierchair/blob/master/scrape_easychair.py
-# https://stackoverflow.com/questions/23202522/r-httr-post-request-for-signing-in
-login_response <- NULL
-if(is.null(login_response)) {
-  login_response <- httr::POST(url = "https://easychair.org/account2/signin_x",
-                         body = list(name = Sys.getenv("easychair_username"),
-                                     password = Sys.getenv("easychair_password")),
-                         encode = "form")
-  #cat("Logged in at EasyChair: ", toString(login_response))
-} # else already logged in
+# EasyChair uses an AJAX-based login flow (as of 2025/2026):
+#   1. GET /account/signin to establish session cookies and extract the button ID
+#   2. POST to /account/signin_x with email, password, hidden fields, and button ID
+#   3. The response is JSON: {"load":"/..."} on success, {"reload":"/account/signin_failed",...} on failure
+# httr reuses cookies automatically via its per-host handle pool, so all subsequent
+# httr::GET/POST calls to easychair.org will carry the session cookies from this login.
+
+if(!exists("login_response") || is.null(login_response)) {
+  # GET the login page first to establish session cookies and extract form field names
+  login_page <- httr::GET(url = "https://easychair.org/account/signin", ec_ua)
+  login_html <- xml2::read_html(login_page)
+
+  # extract the submit button ID (used as a form parameter)
+  submit_btn <- rvest::html_element(login_html, "form input[type='submit']")
+  button_id <- rvest::html_attr(submit_btn, "id")
+  cat("Login page URL:", login_page$url, "\n")
+  cat("Submit button ID:", button_id, "\n")
+
+  # POST to the AJAX endpoint with correct field names
+  login_response <- httr::POST(
+    url = "https://easychair.org/account/signin_x",
+    body = list(
+      email    = Sys.getenv("easychair_username"),
+      password = Sys.getenv("easychair_password"),
+      width    = "1920",
+      height   = "1080",
+      noEs6    = "0",
+      button   = button_id
+    ),
+    encode = "multipart",
+    ec_ua,
+    httr::add_headers(
+      Referer          = "https://easychair.org/account/signin",
+      Origin           = "https://easychair.org",
+      `X-Requested-With` = "XMLHttpRequest"
+    )
+  )
+
+  login_status <- httr::status_code(login_response)
+  cat("Login response status:", login_status, "\n")
+  login_cookies <- httr::cookies(login_response)
+  cat("Cookies set:", nrow(login_cookies), "\n")
+  if(nrow(login_cookies) > 0) cat("  names:", paste(login_cookies$name, collapse = ", "), "\n")
+
+  # parse JSON response
+  login_json <- tryCatch(
+    jsonlite::fromJSON(httr::content(login_response, as = "text", encoding = "UTF-8")),
+    error = function(e) list()
+  )
+  cat("Login response keys:", paste(names(login_json), collapse = ", "), "\n")
+
+  # check for failure indicators
+  if(!is.null(login_json$reload) && grepl("signin_failed", login_json$reload)) {
+    login_response <- NULL
+    stop("EasyChair login failed — wrong credentials. Check email/password in .Renviron")
+  }
+  if(!is.null(login_json$err)) {
+    login_response <- NULL
+    stop("EasyChair login error: ", paste(login_json$err, collapse = "; "))
+  }
+
+  # on success, follow the redirect URL to establish the full session
+  redirect_path <- login_json$load %||% login_json$reload
+  if(!is.null(redirect_path)) {
+    redirect_url <- paste0("https://easychair.org", redirect_path)
+    cat("Following redirect to:", redirect_url, "\n")
+    httr::GET(url = redirect_url, ec_ua)
+  }
+
+  # quick auth check: fetch a protected page and verify we're not redirected to login
+  auth_check <- httr::GET(url = paste0("https://easychair.org/conferences2/submissions?a=", conference_id), ec_ua)
+  if(grepl("signin", auth_check$url)) {
+    login_response <- NULL
+    stop("EasyChair login appeared to succeed but session is not valid ",
+         "(submissions page redirected to: ", auth_check$url, "). ",
+         "EasyChair may require browser-based login.")
+  }
+
+  easychair_logged_in <- TRUE
+  cat("Logged in at EasyChair successfully\n")
+} else {
+  easychair_logged_in <- TRUE
+  cat("Already logged in at EasyChair (reusing session)\n")
+}
 ```
 
 ## Submitted papers
@@ -78,12 +164,6 @@ dir.create(review_files_path, recursive = TRUE, showWarnings = FALSE)
 cr_path <- here::here("camera-ready-full-papers")
 ```
 
-```{r conference_id, echo=params$private_info}
-# get this from the URL when logged into EasyChair, e.g., https://easychair.org/conferences2/submissions?a=34212104
-conference_id <- "34212104"
-# regular conference ID is "33640409", the above seems to be only for track chairs
-```
-
 ### Submission metadata
 
 Retrieve all information about submissions from the EasyChair submissions system.
@@ -91,11 +171,27 @@ The full submission information is not included in the public rendering of this 
 Make sure that the shown columns in the submission table include the columns required in the code below.
 
 ```{r submissions, echo=FALSE, message=FALSE}
-submission_page <- httr::GET(url = paste0("https://easychair.org/conferences2/submissions?a=", conference_id))
+if(!easychair_logged_in) {
+  cat("EasyChair login not available. Creating empty submission table.\n")
+  submission_table <- tibble(
+    `#` = integer(),
+    id = character(),
+    Title = character(),
+    Authors = character(),
+    Decisions = character(),
+    type = character(),
+    information = character(),
+    submission_id = character(),
+    paper = character(),
+    file = character()
+  )
+  cat("No submissions available (EasyChair not connected).\n")
+} else {
+submissions_url <- paste0("https://easychair.org/conferences2/submissions?a=", conference_id)
 
 # Configure displayed fields; Note: the names here must match the fields available, which may differ each year, it's best to login in the browser and transfer the values from a request performed there using the developer console; alternatively, login in the browser at the same time with the same credentials and activate all the fields there
-fields_response <- httr::POST(url = "https://easychair.org/conferences/submission_field_hide_x.cgi?a=34091123",
-                         body = list(a = "34091123",
+fields_response <- httr::POST(url = paste0("https://easychair.org/conferences/submission_field_hide_x.cgi?a=", conference_id),
+                         body = list(a = conference_id,
                                      keywords = "on",
                                      decision = "on",
                                      time = "on",
@@ -103,13 +199,38 @@ fields_response <- httr::POST(url = "https://easychair.org/conferences/submissio
                                      visible = "65091",
                                      visible = "65092",
                                      visible = "65093",
-                                     button = "bf30720"))
+                                     button = "bf30720"),
+                         ec_ua)
 #cat("Selected all fields: ", toString(fields_response))
+
+# fetch submissions page after configuring fields
+submission_page <- httr::GET(url = submissions_url, ec_ua)
+
+# check we got the actual page and were not redirected to login
+if(grepl("signin", submission_page$url)) {
+  stop("EasyChair session expired or login failed — redirected to: ", submission_page$url, ". ",
+       "Re-run the easychair_login chunk.")
+}
 
 submission_html <- xml2::read_html(submission_page)
 submission_table_full <- rvest::html_element(submission_html, ".ct_table")
+if(is.na(submission_table_full)) {
+  # try alternative table selectors in case EasyChair changed CSS classes
+  submission_table_full <- rvest::html_element(submission_html, "table.paperTable")
+}
+if(is.na(submission_table_full)) {
+  submission_table_full <- rvest::html_element(submission_html, "table")
+}
+if(is.na(submission_table_full)) {
+  stop("Could not find submissions table in EasyChair page. ",
+       "The page structure may have changed. Check the page manually at:\n",
+       submissions_url)
+}
 # remove first header row and set names manually later, because the vertical table headers are images anyway
-xml_remove(xml2::xml_child(rvest::html_element(submission_table_full, "thead")))
+thead <- rvest::html_element(submission_table_full, "thead")
+if(!is.na(thead) && length(xml2::xml_children(thead)) > 0) {
+  xml_remove(xml2::xml_child(thead))
+}
 submission_table <- rvest::html_table(x = submission_table_full,
                                       fill = TRUE)
 #names(submission_table) <- c("id", "authors", "title", "information", "paper"
@@ -141,6 +262,8 @@ for (i in 1:nrow(submission_table)) {
 #warnings("removing submissions 1 and 2, they are tests this year")
 #submission_table <- submission_table[3:nrow(submission_table),]
 
+} # end else (easychair_logged_in)
+
 submission_table %>%
   group_by(type) %>% # in 2025, posters and short papers are in a different id/page
   tally() %>%
@@ -167,28 +290,34 @@ if(params$private_info) {
 The paper PDFs are downloaded from EasyChair directly using the links provided in the submission overview table.
 
 ```{r download_easychair, echo=FALSE}
-for (i in 1:nrow(submission_table)) {
-  if(is.na(submission_table[i,]$paper)) {
-    cat("No paper URL for ", i, "\n")
-    next
-  }
-  
-  current <- submission_table[i,]
-  filename <- file.path(submissions_path, paste0(current$id, ".pdf"))
-  if(!file.exists(filename)) {
-    httr::GET(url = current$paper,
-              httr::write_disk(path = filename,
-                               overwrite = TRUE))
+if(nrow(submission_table) > 0) {
+  for (i in 1:nrow(submission_table)) {
+    if(is.na(submission_table[i,]$paper)) {
+      cat("No paper URL for ", i, "\n")
+      next
+    }
+
+    current <- submission_table[i,]
+    filename <- file.path(submissions_path, paste0(current$id, ".pdf"))
+    if(!file.exists(filename)) {
+      httr::GET(url = current$paper,
+                httr::write_disk(path = filename,
+                                 overwrite = TRUE))
+    }
   }
 }
 
 submission_files <- dir(path = submissions_path, pattern = ".pdf$", full.names = TRUE)
 
-submission_table <- left_join(submission_table,
-                              tibble("id" = str_match(submission_files,
-                                                      pattern = "([:digit:]*)\\.pdf")[,2],
-                                     "file" = submission_files),
-                              by = "id")
+if(length(submission_files) > 0 && nrow(submission_table) > 0) {
+  submission_table <- left_join(submission_table,
+                                tibble("id" = str_match(submission_files,
+                                                        pattern = "([:digit:]*)\\.pdf")[,2],
+                                       "file" = submission_files),
+                                by = "id")
+} else if(!"file" %in% names(submission_table)) {
+  submission_table$file <- character(0)
+}
 
 submission_table
 ```
@@ -200,28 +329,30 @@ If there are issues with loading the PDF, you may try to convert the PDF to `.ps
 
 ```{r tidy_data, echo=FALSE}
 texts <- list()
-for (i in 1:nrow(submission_table)) {
-  current <- submission_table[i,]
-  #cat("Reading   ", current$file, "\n")
-  the_text <- NA
-  if(!is.na(current$file)) {
-    tryCatch({
-      the_text <- tabulapdf::extract_text(file = current$file)
-      the_text <- stringr::str_flatten(stringr::str_c(the_text))
-      },
-      error = function(e) {
-        cat("Error loading PDF for ", toString(current), "\n\n", toString(e))
-      },
-      finally = {
-        #cat("Done with ", current$file, "\n")
-      }
-    )
-  } else {
-    warning("No text available for paper ", current$id, " ", current$title)
+if(nrow(submission_table) > 0) {
+  for (i in 1:nrow(submission_table)) {
+    current <- submission_table[i,]
+    #cat("Reading   ", current$file, "\n")
+    the_text <- NA
+    if(!is.na(current$file)) {
+      tryCatch({
+        the_text <- tabulapdf::extract_text(file = current$file)
+        the_text <- stringr::str_flatten(stringr::str_c(the_text))
+        },
+        error = function(e) {
+          cat("Error loading PDF for ", toString(current), "\n\n", toString(e))
+        },
+        finally = {
+          #cat("Done with ", current$file, "\n")
+        }
+      )
+    } else {
+      warning("No text available for paper ", current$id, " ", current$title)
+    }
+
+    names(the_text) <- current$id
+    texts <- c(texts, the_text)
   }
-  
-  names(the_text) <- current$id
-  texts <- c(texts, the_text)
 }
 
 pages <- lapply(submission_table$file, function(f) {
@@ -237,19 +368,26 @@ pages <- lapply(submission_table$file, function(f) {
   return(pages)
 })
 
-tidy_texts <- tibble(id = submission_table$id,
-                     path = submission_table$file,
-                     type = submission_table$type,
-                     submission_table$type,
-                     text = unlist(texts),
-                     pages = pages)
+if(length(texts) > 0) {
+  tidy_texts <- tibble(id = submission_table$id,
+                       path = submission_table$file,
+                       type = submission_table$type,
+                       text = unlist(texts),
+                       pages = pages)
+} else {
+  tidy_texts <- tibble(id = character(),
+                       path = character(),
+                       type = character(),
+                       text = character(),
+                       pages = list())
+}
 
 # create a table of all words
 all_words <- tidy_texts %>%
   select(id,
          type,
          text) %>%
-  unnest_tokens(word, text)
+  unnest_tokens(word, text, drop = FALSE)
 
 # remove stop words and remove numbers
 my_stop_words <- tibble(
@@ -288,7 +426,7 @@ after_cleanup = nrow(no_stop_words)
 ```
 
 `r nrow(tidy_texts)` papers successfully read.
-About `r round(after_cleanup/total_words * 100, digits = 0)`&nbsp;% of the words are considered stop words.
+About `r if(total_words > 0) round(after_cleanup/total_words * 100, digits = 0) else 0`&nbsp;% of the words are considered stop words.
 
 The following table shows how many words and non-stop words each document has, sorted by number of non-stop words.
 The `id` is built from the file name plus a prefix:
@@ -308,13 +446,15 @@ words_per_doc <- all_words %>%
 type_counts_totals <- submission_table %>%
   group_by(type) %>%
   tally()
-type_counts_totals$type <- c(#"Full-paper submission"
-                             #, "Poster submission"
-                             #, "Short-paper submission"
-                             "Full paper"
-                             #, "Poster"
-                             #, "Short paper"
-                             )
+if(nrow(type_counts_totals) > 0) {
+  type_counts_totals$type <- c(#"Full-paper submission"
+                               #, "Poster submission"
+                               #, "Short-paper submission"
+                               "Full paper"
+                               #, "Poster"
+                               #, "Short paper"
+                               )
+}
 type_counts_totals <- paste(
   paste(type_counts_totals$type, type_counts_totals$n, sep = "s: "),
   collapse = "|")
@@ -358,7 +498,7 @@ dasa_texts <- tidy_texts %>%
   select(id, type, dasa_text)
 ```
 
-`r dasa_count` papers have the section in question, that is `r round(dasa_count/nrow(submission_table) * 100)`&nbsp;% of all submissions.
+`r dasa_count` papers have the section in question, that is `r if(nrow(submission_table) > 0) round(dasa_count/nrow(submission_table) * 100) else 0`&nbsp;% of all submissions.
 Here are the statistics per submission type:
 
 ```{r dasa_statistics, echo=FALSE}
@@ -470,8 +610,8 @@ top_wordstems <- wordstems %>%
   arrange(desc(n)) %>%
   head(20) %>%
   mutate(`# papers` = countPapersUsingWordstem(wordstem)) %>%
-  mutate(`% papers` = round(countPapersUsingWordstem(wordstem)/nrow(submission_table) * 100)) %>%
-  add_column(place = c(1:nrow(.)), .before = 0)
+  mutate(`% papers` = if(nrow(submission_table) > 0) round(countPapersUsingWordstem(wordstem)/nrow(submission_table) * 100) else 0) %>%
+  add_column(place = seq_len(nrow(.)), .before = 0)
 
 minimum_occurence <- 100
 cloud_wordstems <- wordstems %>%
@@ -482,7 +622,7 @@ cloud_wordstems <- wordstems %>%
 ```
 
 For the following table and figure, the word stems were extracted based on a stemming algorithm from package [`quanteda`](https://cran.r-project.org/package=quanteda).
-The word cloud is based on `r length(unique(cloud_wordstems$wordstem))` unique words occuring each at least `r minimum_occurence` times, all in all occuring `r sum(cloud_wordstems$n)` times which comprises `r round(sum(cloud_wordstems$n)/ nrow(no_stop_words) * 100)`&nbsp;% of non-stop words.
+The word cloud is based on `r length(unique(cloud_wordstems$wordstem))` unique words occuring each at least `r minimum_occurence` times, all in all occuring `r sum(cloud_wordstems$n)` times which comprises `r if(nrow(no_stop_words) > 0) round(sum(cloud_wordstems$n)/ nrow(no_stop_words) * 100) else 0`&nbsp;% of non-stop words.
 
 ```{r top_wordstems, echo=FALSE}
 top_wordstems %>%
@@ -491,13 +631,17 @@ top_wordstems %>%
   scroll_box(height = "320px")
 ```
 
-```{r wordstemcloud, dpi=150, echo=FALSE, fig.cap="Wordstem cloud of AGILE 2023 full paper submissions"}
-wordcloud(cloud_wordstems$wordstem, cloud_wordstems$n,
-          max.words = 220, # manually tested and set
-          random.order = FALSE,
-          fixed.asp = FALSE,
-          rot.per = 0,
-          color = brewer.pal(8,"Dark2"))
+```{r wordstemcloud, dpi=150, echo=FALSE, fig.cap="Wordstem cloud of AGILE 2026 full paper submissions"}
+if(nrow(cloud_wordstems) > 0) {
+  wordcloud(cloud_wordstems$wordstem, cloud_wordstems$n,
+            max.words = 220, # manually tested and set
+            random.order = FALSE,
+            fixed.asp = FALSE,
+            rot.per = 0,
+            color = brewer.pal(8,"Dark2"))
+} else {
+  cat("No word data available for word cloud.\n")
+}
 ```
 
 ## Reproducible research-related keywords of all submissions
@@ -542,26 +686,23 @@ word_counts <- tibble(
 )
 
 # https://stackoverflow.com/a/32827260/261210
-sumColsInARow <- function(df, list_of_cols, new_col) {
-  df %>% 
-    mutate_(.dots = ~Reduce(`+`, .[list_of_cols])) %>% 
-    setNames(c(names(df), new_col))
-}
-
-word_counts_sums <- sumColsInARow(
-  word_counts, 
-  names(word_counts)[!(names(word_counts) %in% c("id", "type"))], "all") %>%
+numeric_cols <- names(word_counts)[!(names(word_counts) %in% c("id", "type"))]
+word_counts_sums <- word_counts %>%
+  mutate(all = rowSums(across(all_of(numeric_cols)))) %>%
   arrange(desc(all))
 
 DASA_counts <- word_counts_sums %>%
   group_by(DASA) %>%
   tally()
 
-word_counts_sums_total <- word_counts_sums %>% 
-  summarise_if(is.numeric, funs(sum)) %>%
+dasa_true_n <- if(any(DASA_counts$DASA == TRUE)) DASA_counts$n[DASA_counts$DASA == TRUE] else 0
+dasa_false_n <- if(any(DASA_counts$DASA == FALSE)) DASA_counts$n[DASA_counts$DASA == FALSE] else 0
+
+word_counts_sums_total <- word_counts_sums %>%
+  summarise(across(where(is.numeric), sum)) %>%
   add_column(id = "Total",
              type = "",
-             DASA = paste0("T:", DASA_counts[2,2], "|F:", DASA_counts[1,2]),
+             DASA = paste0("T:", dasa_true_n, "|F:", dasa_false_n),
              .before = 0)
 word_counts_sums <- rbind(word_counts_sums, word_counts_sums_total)
 
@@ -603,22 +744,6 @@ submission_table %>%
 ```
 
 ```{r compile review data, echo=FALSE, eval=params$private_info}
-#page <- httr::GET(url = "https://easychair.org/conferences/status?a=26091618")
-#review_status_page <- xml2::read_html(page)
-#review_table <- rvest::html_table(rvest::html_elements(review_status_page, ".paperTable")[[1]], header = TRUE)
-#names(review_table)[4] <- "average"
-#names(review_table)[1] <- "id"
-#review_table$id <- str_pad(review_table$id, width = 3, side = "left", pad = "0")
-#
-## IMPORTANT: "Show paper authors" must be _un_ticked for the following code to work
-#review_table <- review_table %>%
-#  tidyr::separate(col = title, into = c("authors","title"), sep = "\\.+?", extra = "merge")
-#
-## the tr element of the review table has the internal paper ID in format "r4789577"
-#review_table$internal_id <- sapply(X = rvest::html_elements(review_status_page, css = ".paperTable tr[id]"), FUN = function(row) {
-#  substr(html_attr(row, "id"), 2, 999)
-#})
-
 review_data <- left_join(submission_table, dasa_texts %>% select(-type),
                          by = "id")
 
@@ -649,39 +774,6 @@ review_data %>%
          Title,
          #authors
          )
-```
-
-`r if(!params$private_info) {"<!--"}`
-
-### Which papers have a link to the reproducibility review
-
-_Does not work reliably yet._
-**_Furthermore, this is not critical anymore because Copernicus now adds a reference to the reproducibility reports._**
-These are the papers where the reproducibility review resulted in at least partially successful reproduction.
-
-`r if(!params$private_info) {"-->"}`
-
-```{r report_links, echo=FALSE, eval=params$private_info}
-# hope that at least on of the phrases is not stretched across multiple spaces
-report_pattern <- regex("(AGILE[:space:]reproducibility[:space:]review|reproducibility[:space:]report)", ignore_case = TRUE)
-tidy_texts <- tidy_texts %>%
-  mutate(has_report = str_detect(tidy_texts$text, pattern = report_pattern))
-
-report_count <- tidy_texts %>% filter(has_report) %>% nrow()
-
-excerpt_length <- 300
-report_texts <- tidy_texts %>%
-  filter(has_report) %>%
-  mutate(report_start = str_locate(.data$text, pattern = report_pattern)[,1]) %>%
-  mutate(report_text = str_sub(.data$text, start = report_start, end = report_start + excerpt_length)) %>%
-  select(id, type, report_text)
-
-report_texts %>%
-    arrange(id) %>%
-    kable() %>%
-    kable_styling("striped") %>%
-    scroll_box(height = "320px")
-
 ```
 
 ## Reproducibility reviews
@@ -733,6 +825,7 @@ for (i in 1:nrow(review_files)) {
 }
 ```
 
+<!--
 ```{r update_camera_ready_file_paths, echo=FALSE, eval=params$private_info}
 # Use this chunk if camera ready files are not managed via EasyChair
 review_files <- review_data %>%
@@ -748,6 +841,7 @@ for (i in 1:nrow(review_files)) {
             to = file.path(review_files_path, paste0(current$id, ".pdf")))
 }
 ```
+-->
 
 ```{r review_data_csv, echo=FALSE, eval=params$private_info}
 readr::write_csv(review_files %>%
@@ -761,34 +855,38 @@ readr::write_csv(review_files %>%
 ```{r reviewer_comments, echo=FALSE, eval=params$private_info}
 # get review contents for each paper
 
-# Example page: https://easychair.org/conferences/submission_reviews?a=26091618;submission=5333543
+# Example page: https://easychair.org/conferences2/submission_reviews?a=36110000&submission=7499134
 retrieve_review <- function(id, submission_id) {
-  url <- parse_url("https://easychair.org/conferences/submission_reviews")
+  url <- parse_url("https://easychair.org/conferences2/submission_reviews")
   url$query <- list(submission = submission_id, a = conference_id)
-  response <- httr::GET(url = build_url(url))
+  response <- httr::GET(url = build_url(url), ec_ua)
   content <- httr::content(response)
-  page_title <- as.character(
-    xml2::xml_contents(
-      rvest::html_element(
-        content(response), "title")))
-  if(grepl("Log in", page_title))
+
+  # check for login redirect or access issues
+  page_title_el <- rvest::html_element(content, ".pagetitle")
+  page_title <- if(!is.na(page_title_el)) html_text(page_title_el, trim = TRUE) else ""
+  if(grepl("Log in", page_title) || grepl("signin", response$url))
      stop("You must (re)login to EasyChair")
-  
+  if(grepl("Access Violation", page_title)) {
+    warning(paste("Access denied for reviews of submission", id, "— skipping"))
+    return(NA)
+  }
+
   # check if id matches
   title_id <- str_pad(str_extract(page_title,
-    "[[:digit:]]"),
+    "[[:digit:]]+"),
     width = 3, side = "left", pad = "0")
-  
+
   cat(id, " -- ", title_id, "\n")
-  
+
   if(is.na(id) || is.na(title_id)) {
     warning(paste("Ids are both NA for submission", submission_id), "\n")
     return(NA)
   }
-  
+
   if(id != title_id)
     warning(paste("Ids mismatch, id: ", id, " id in reponse: ", title_id), "\n")
-  
+
   review_doc <- xml_new_root(xml_dtd(name = "html", external_id = "-//W3C//DTD XHTML 1.0 Transitional//EN", system_id = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"))
   review_head <- xml2::xml_add_child(review_doc, "head")
   review_style <- xml2::xml_add_child(review_head, "style")
@@ -800,34 +898,51 @@ retrieve_review <- function(id, submission_id) {
   table {
     margin-bottom: 20px;
   }"
-  
+
   review_body <- xml2::xml_add_child(review_doc, "body")
-  
-  xml2::xml_add_child(review_body,
-                      xml2::xml_find_first(content,
-                                           xpath = "//h3[contains(., 'Submission')]/following-sibling::div"))
-  
+
+  # extract submission info — try multiple XPath patterns for different EC layouts
+  submission_info <- xml2::xml_find_first(content,
+    xpath = "//h3[contains(., 'Submission')]/following-sibling::div")
+  if(inherits(submission_info, "xml_missing")) {
+    # try alternative: look for ct_table directly
+    submission_info <- xml2::xml_find_first(content, xpath = "//table[@class='ct_table']")
+  }
+  if(!inherits(submission_info, "xml_missing")) {
+    xml2::xml_add_child(review_body, submission_info)
+  }
+
   # remove missing reviewer name(s)
-  xml2::xml_replace(xml2::xml_find_all(review_body,
-                                       xpath = "//td[starts-with(., 'Missing')]/following-sibling::td"),
-                    xml2::xml_comment("anonymised"))
-  
+  missing_names <- xml2::xml_find_all(review_body,
+    xpath = "//td[starts-with(., 'Missing')]/following-sibling::td")
+  if(length(missing_names) > 0) {
+    xml2::xml_replace(missing_names, xml2::xml_comment("anonymised"))
+  }
+
+  # extract reviews — try multiple XPath patterns
   review_content <- xml2::xml_find_all(content,
-                                       xpath = "//h3[starts-with(., 'Reviews')]/following-sibling::div")
+    xpath = "//h3[starts-with(., 'Reviews')]/following-sibling::div")
+  if(length(review_content) == 0) {
+    # try alternative: look for review tables/divs by class
+    review_content <- xml2::xml_find_all(content,
+      xpath = "//div[contains(@class, 'review')]")
+  }
   if(length(review_content) > 0) {
     for (i in c(1:length(review_content))) {
-      
+
       # remove PC member name
-      xml2::xml_replace(xml2::xml_find_all(review_content,
-                                           xpath = "//td[starts-with(., 'PC')]/following-sibling::td"),
-                        xml2::xml_comment("anonymised"))
-      
+      pc_names <- xml2::xml_find_all(review_content,
+        xpath = "//td[starts-with(., 'PC')]/following-sibling::td")
+      if(length(pc_names) > 0) {
+        xml2::xml_replace(pc_names, xml2::xml_comment("anonymised"))
+      }
+
       xml2::xml_add_child(review_body, review_content[[i]])
     }
   } else {
     xml2::xml_add_child(review_body, xml2::read_xml("<strong>No reviews available yet.</strong>"))
   }
-  
+
   reviews_html_path <- file.path(review_files_path, paste0(id, "_reviews.html"))
   xml2::write_html(review_doc, reviews_html_path)
   reviews_html_path
@@ -843,34 +958,38 @@ for(i in c(1:nrow(review_files))) {
 #### Author contacts
 
 ```{r author_contacts, echo=FALSE, eval=params$private_info}
-# Example page: https://easychair.org/conferences2/submission_view?a=26091618;submission=5333543
+# Example page: https://easychair.org/conferences2/submission_view?a=36110000&submission=7499134
 retrieve_authors <- function(id, submission_id, authors, title) {
   url <- parse_url("https://easychair.org/conferences2/submission_view")
   url$query <- list(submission = submission_id, a = conference_id)
-  response <- httr::GET(url = build_url(url))
-  content <- content(response)
-  page_title <- as.character(
-    xml2::xml_contents(
-      rvest::html_element(
-        content(response), "title")))
-  if(grepl("Log in", page_title))
+  response <- httr::GET(url = build_url(url), ec_ua)
+  page_content <- httr::content(response)
+
+  # check for login redirect or access issues
+  page_title_el <- rvest::html_element(page_content, ".pagetitle")
+  page_title <- if(!is.na(page_title_el)) html_text(page_title_el, trim = TRUE) else ""
+  if(grepl("Log in", page_title) || grepl("signin", response$url))
      stop("You must (re)login to EasyChair")
-  
+  if(grepl("Access Violation", page_title)) {
+    warning(paste("Access denied for author details of submission", id, "— skipping"))
+    return(NA)
+  }
+
   # check if id matches
   title_id <- str_pad(str_extract(page_title,
-    "[[:digit:]]"),
+    "[[:digit:]]+"),
     width = 3, side = "left", pad = "0")
-  
+
   cat(id, " -- ", title_id, "\n")
-  
+
   if(is.na(id) || is.na(title_id)) {
     warning(paste("Ids are both NA for submission", submission_id), "\n")
     return(NA)
   }
-  
+
   if(id != title_id)
     warning(paste("Ids mismatch, id: ", id, " id in reponse: ", title_id), "\n")
-  
+
   authors_doc <- xml_new_root("html")
   authors_head <- xml2::xml_add_child(authors_doc, "head")
   authors_style <- xml2::xml_add_child(authors_head, "style")
@@ -891,35 +1010,40 @@ retrieve_authors <- function(id, submission_id, authors, title) {
     padding: 10px;
     border: 3px solid red;
   }"
-  
+
   authors_body <- xml2::xml_add_child(authors_doc, "body")
-  
-  xml2::xml_add_child(authors_body,
-                      xml2::xml_find_first(content,
-                                           xpath = "//div[@class='pagetitle']"))
-  
-  xml2::xml_add_child(authors_body,
-                      xml2::xml_find_all(content,
-                                           xpath = "//table[@class='ct_table']")[[2]]) # Authors are the second table on the page
-  
+
+  pagetitle_node <- xml2::xml_find_first(page_content, xpath = "//div[@class='pagetitle']")
+  if(!inherits(pagetitle_node, "xml_missing")) {
+    xml2::xml_add_child(authors_body, pagetitle_node)
+  }
+
+  ct_tables <- xml2::xml_find_all(page_content, xpath = "//table[@class='ct_table']")
+  if(length(ct_tables) >= 2) {
+    xml2::xml_add_child(authors_body, ct_tables[[2]]) # Authors are the second table on the page
+  } else if(length(ct_tables) == 1) {
+    xml2::xml_add_child(authors_body, ct_tables[[1]])
+  }
+
   # make clickable email links and extract author names
   authors_table <- xml2::xml_find_all(authors_body, xpath = "//tr[@class='green']")
   names <- c()
   emails <- c()
   for (a in authors_table) {
     cells <- xml2::xml_children(a)
-    names <- c(names, paste(xml2::xml_text(cells[[1]]),
-                            xml2::xml_text(cells[[2]]))
-               )
-    emails <- c(emails, xml2::xml_text(cells[[3]]))
+    if(length(cells) >= 3) {
+      names <- c(names, paste(xml2::xml_text(cells[[1]]),
+                              xml2::xml_text(cells[[2]])))
+      emails <- c(emails, xml2::xml_text(cells[[3]]))
+    }
   }
-  
+
   contact <- xml2::xml_add_child(authors_body, "div")
   xml2::xml_set_attr(contact, "class", "contact")
   names_xml <- xml2::xml_add_child(contact, "div")
   #xml2::xml_text(names_xml) <- glue::glue_collapse(x = names, sep = ",", last = " and ")
   xml2::xml_text(names_xml) <- authors
-  
+
   link_xml <- xml2::xml_add_child(xml2::xml_add_child(contact, "div"), "a")
   xml2::xml_set_attr(link_xml, "href", paste0(
     "mailto:",
@@ -931,7 +1055,7 @@ retrieve_authors <- function(id, submission_id, authors, title) {
     "%0D%0A%0D%0AYour submission '", title, "'"
   ))
   xml2::xml_text(link_xml) <- "Send email to authors (CC reproducibility chair(s))"
-  
+
   authors_html_path <- file.path(review_files_path, paste0(id, "_authors.html"))
   xml2::write_html(authors_doc, authors_html_path, encoding = "ISO-8859-1")
   authors_html_path

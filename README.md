@@ -11,7 +11,7 @@ The reproducibility reviews are published on OSF: **<https://osf.io/hmxda>**
 
 ## Contents/Usage
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/reproducible-agile/reviews-2023/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/reproducible-agile/reviews-2026/HEAD)
 
 To work on the main R Markdown file, `agile-reproducibility-reviews.Rmd`, which includes _all_ information and documentation of the reproducibility review, run (requires GNU Make, and `virtualenv` for Python)
 

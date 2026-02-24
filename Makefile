@@ -1,12 +1,14 @@
+IMAGE_NAME := repro-review
+
 default: runcontainer
 
-runcontainer: venv install.R
-	$(VENV)/repo2docker --editable .
+runcontainer: build
+	docker run -it -p 8888:8888 -v "$(CURDIR)":/home/jovyan $(IMAGE_NAME)
 .PHONY: runcontainer
 
-clean: clean-venv
-	rm -r -f .venv/
-	rm agile-reproducibility-reviews.html
+build: Dockerfile install.R
+	docker build --network=host --tag $(IMAGE_NAME) .
+.PHONY: build
 
-# https://github.com/sio/Makefile.venv
-include Makefile.venv
+clean:
+	rm -f agile-reproducibility-reviews.html
