@@ -12,9 +12,9 @@
 <meta name="author" content="Daniel Nüst, Carlos Granell, Frank Ostermann" />
 
 
-<title>Reproducibility Review AGILE 2025</title>
+<title>Reproducibility Review AGILE 2026</title>
 
-<script src="index_files/header-attrs-2.29/header-attrs.js"></script>
+<script src="index_files/header-attrs-2.30/header-attrs.js"></script>
 <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="index_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -163,28 +163,18 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Reproducibility Review AGILE 2025</h1>
+<h1 class="title toc-ignore">Reproducibility Review AGILE 2026</h1>
 <h4 class="author">Daniel Nüst, Carlos Granell, Frank Ostermann</h4>
-<h4 class="date">06 June, 2025</h4>
+<h4 class="date">26 Februar, 2026</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
 <li><a href="#introduction" id="toc-introduction">Introduction</a></li>
-<li><a href="#submitted-papers" id="toc-submitted-papers">Submitted
-papers</a>
-<ul>
-<li><a href="#submission-metadata"
-id="toc-submission-metadata">Submission metadata</a></li>
-<li><a href="#full-texts" id="toc-full-texts">Full texts</a></li>
-<li><a
-href="#which-papers-include-a-data-and-software-availability-section"
-id="toc-which-papers-include-a-data-and-software-availability-section">Which
-papers include a “Data and Software Availability” section?</a></li>
-<li><a href="#wordstem-analysis" id="toc-wordstem-analysis">Wordstem
-analysis</a></li>
-</ul></li>
+<li><a href="#wordstem-analysis-of-all-submissions"
+id="toc-wordstem-analysis-of-all-submissions">Wordstem analysis of all
+submissions</a></li>
 <li><a href="#reproducible-research-related-keywords-of-all-submissions"
 id="toc-reproducible-research-related-keywords-of-all-submissions">Reproducible
 research-related keywords of all submissions</a></li>
@@ -192,6 +182,9 @@ research-related keywords of all submissions</a></li>
 id="toc-reproducibility-reviews">Reproducibility reviews</a>
 <ul>
 <li><a href="#about" id="toc-about">About</a></li>
+<li><a href="#forming-the-reproducibility-committee"
+id="toc-forming-the-reproducibility-committee">Forming the
+reproducibility committee</a></li>
 <li><a href="#reproducibility-reviewer-instructions"
 id="toc-reproducibility-reviewer-instructions">Reproducibility reviewer
 instructions</a></li>
@@ -213,7 +206,7 @@ style="width:50.0%" /></p>
 <h2>Introduction</h2>
 <p>This document includes scripts and text analysis to support the
 reproducibility review at the <a
-href="https://agile-gi.eu/conference-2025">AGILE conference 2025</a>,
+href="https://agile-gi.eu/conference-2026">AGILE conference 2026</a>,
 which is organised by the team of the Chair for Geoinformatics, TU
 Dresden, Germany.</p>
 <p>Find out more online <a
@@ -222,527 +215,319 @@ publications at AGILE</a> and the <a href="https://osf.io/eg4qx/">review
 process</a>, and visit the Reproducible AGILE website: <a
 href="https://reproducible-agile.github.io/">https://reproducible-agile.github.io/</a>.
 The code of this document is published on GitHub in the repository <a
-href="https://github.com/reproducible-agile/reviews-2025">reproducible-agile/reviews-2025</a>,
+href="https://github.com/reproducible-agile/reviews-2026">reproducible-agile/reviews-2026</a>,
 where you can inspect the R code in the file
 <code>agile-reproducibility-reviews.Rmd</code> and find instructions for
-reproducing the workflow. The <a
+using this document to support the reproducibility review.</p>
+<p>The <a
 href="https://bookdown.org/yihui/rmarkdown/parameterized-reports.html">report
 parameter</a> <code>private_info</code> can be set to <code>yes</code>
 to show information which cannot be shared publicly, such as author
 names, titles, or excerpts of not accepted submissions, and to upload
-review files to private shares, which requires authentication. The end
-of this document contains a hidden code snippet to only render
-information accepted for publication as a GitHub page.</p>
-</div>
-<div id="submitted-papers" class="section level2">
-<h2>Submitted papers</h2>
-<div id="submission-metadata" class="section level3">
-<h3>Submission metadata</h3>
-<p>Retrieve all information about submissions from the EasyChair
-submissions system. The full submission information is not included in
-the public rendering of this report. Make sure that the shown columns in
-the submission table include the columns required in the code below.</p>
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-type
-</th>
-<th style="text-align:right;">
-n
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-23
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="full-texts" class="section level3">
-<h3>Full texts</h3>
-<p>The paper PDFs are downloaded from EasyChair directly using the links
-provided in the submission overview table.</p>
-<p>The text is extracted from PDFs and it is processed to create a <a
-href="https://www.jstatsoft.org/article/view/v059i10">tidy</a> data
-structure without <a
-href="https://en.wikipedia.org/wiki/Stop_words">stop words</a>. The stop
-words include specific words, which might be included in the page
-header, abbreviations, and terms particular to scientific articles, such
-as <code>figure</code>.</p>
-<p>If there are issues with loading the PDF, you may try to convert the
-PDF to <code>.ps</code> Postscript and back, e.g., using a combination
-of “Print to file &gt; Postscript” in a PDF viewer and then
-<code>ps2pdf</code> on the command line.</p>
-<p>23 papers successfully read. About 51 % of the words are considered
-stop words.</p>
-<p>The following table shows how many words and non-stop words each
-document has, sorted by number of non-stop words. The <code>id</code> is
-built from the file name plus a prefix: for full papers, it is the
-left-padded submission number and the prefix <code>fp_</code>;
-<!--for short papers and posters, it is the submission number included in the file name and the prefixes `sp_` and `po_` respectively.--></p>
-<div
-style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:240px; ">
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-type
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-words
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-non-stop words
-</th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
-%
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-3589
-</td>
-<td style="text-align:right;">
-1734
-</td>
-<td style="text-align:right;">
-48.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-7289
-</td>
-<td style="text-align:right;">
-3437
-</td>
-<td style="text-align:right;">
-47.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-9312
-</td>
-<td style="text-align:right;">
-4079
-</td>
-<td style="text-align:right;">
-43.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-6904
-</td>
-<td style="text-align:right;">
-3826
-</td>
-<td style="text-align:right;">
-55.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-6989
-</td>
-<td style="text-align:right;">
-3058
-</td>
-<td style="text-align:right;">
-43.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-7051
-</td>
-<td style="text-align:right;">
-3734
-</td>
-<td style="text-align:right;">
-53.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-4716
-</td>
-<td style="text-align:right;">
-2510
-</td>
-<td style="text-align:right;">
-53.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-9439
-</td>
-<td style="text-align:right;">
-5449
-</td>
-<td style="text-align:right;">
-57.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-8463
-</td>
-<td style="text-align:right;">
-4148
-</td>
-<td style="text-align:right;">
-49.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-7612
-</td>
-<td style="text-align:right;">
-4220
-</td>
-<td style="text-align:right;">
-55.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-8629
-</td>
-<td style="text-align:right;">
-4087
-</td>
-<td style="text-align:right;">
-47.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-4636
-</td>
-<td style="text-align:right;">
-2473
-</td>
-<td style="text-align:right;">
-53.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-7489
-</td>
-<td style="text-align:right;">
-3724
-</td>
-<td style="text-align:right;">
-49.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-7687
-</td>
-<td style="text-align:right;">
-4062
-</td>
-<td style="text-align:right;">
-52.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-9111
-</td>
-<td style="text-align:right;">
-4527
-</td>
-<td style="text-align:right;">
-49.7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-6746
-</td>
-<td style="text-align:right;">
-3194
-</td>
-<td style="text-align:right;">
-47.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-7432
-</td>
-<td style="text-align:right;">
-4099
-</td>
-<td style="text-align:right;">
-55.2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-6236
-</td>
-<td style="text-align:right;">
-2931
-</td>
-<td style="text-align:right;">
-47.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-11050
-</td>
-<td style="text-align:right;">
-5790
-</td>
-<td style="text-align:right;">
-52.4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-9466
-</td>
-<td style="text-align:right;">
-4666
-</td>
-<td style="text-align:right;">
-49.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-5844
-</td>
-<td style="text-align:right;">
-3101
-</td>
-<td style="text-align:right;">
-53.1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-6702
-</td>
-<td style="text-align:right;">
-3621
-</td>
-<td style="text-align:right;">
-54.0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-6162
-</td>
-<td style="text-align:right;">
-3347
-</td>
-<td style="text-align:right;">
-54.3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-weight: bold;">
-Full papers: 23
-</td>
-<td style="text-align:right;font-weight: bold;">
-168554
-</td>
-<td style="text-align:right;font-weight: bold;">
-85817
-</td>
-<td style="text-align:right;font-weight: bold;">
-50.9
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="which-papers-include-a-data-and-software-availability-section"
-class="section level3">
-<h3>Which papers include a “Data and Software Availability”
-section?</h3>
-<p>According the the <a href="https://osf.io/c8gtq/">AGILE Reproducible
-Paper Guidelines</a>, all authors must add a <em>Data and Software
-Availability</em> section to their paper. This detection naturally
-relies on the loaded texts <em>with</em> stop words.</p>
-<p>22 papers have the section in question, that is 96 % of all
-submissions. Here are the statistics per submission type:</p>
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-type
-</th>
-<th style="text-align:right;">
-submissions
-</th>
-<th style="text-align:right;">
-with DASA
-</th>
-<th style="text-align:right;">
-%
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
-22
-</td>
-<td style="text-align:right;">
-95.7
-</td>
-</tr>
-</tbody>
-</table>
-<p>Some papers might have slightly different terms because of human
-error or misinterpretation of the template or the guidelines.</p>
-<p>0 papers do not have a DASA section but have possible related
-sections in question. These are excerpts of the similarly matched
-patterns, which were found anywhere in the text, not just in
-headlines.</p>
-<div
-style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:320px; ">
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-id
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-type
-</th>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-excerpt
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-:–
-</td>
-<td style="text-align:left;">
-:—-
-</td>
-<td style="text-align:left;">
-:——-
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+review files to private shares, which requires authentication. If you
+read this report publicly online, you are reading the version without
+private information. If you are interested in the full version, please
+contact the AGILE chairs or the authors of this report.</p>
 <!--
+
+## Submissions
+
+Retrieve all information about submissions from the EasyChair submissions system.
+The full submission information is not included in the public rendering of this report.
+Make sure that the shown columns in the submission table include the columns required in the code below.
+
+
+```
+## Saved submission table cache to /home/daniel/git/reproducible-agile/reviews-2026/submissions/submission_table.csv
+```
+
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> type </th>
+   <th style="text-align:right;"> n </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 25 </td>
+  </tr>
+</tbody>
+</table>
+
+
+
+
+### Full texts
+
+The paper PDFs are downloaded from EasyChair directly using the links provided in the submission overview table.
+
+
+```
+## # A tibble: 25 × 17
+##    id      `#` Authors       Title Information Reviews `submission file` Assignment Update Time 
+##    <chr> <int> <chr>         <chr> <lgl>       <lgl>   <lgl>             <lgl>      <lgl>  <chr>
+##  1 007       7 Ioanna Gogou… Incl… NA          NA      NA                NA         NA     Dec …
+##  2 008       8 John Dawson,… A Ne… NA          NA      NA                NA         NA     Dec …
+##  3 010      10 David Hanny,… Towa… NA          NA      NA                NA         NA     Dec …
+##  4 011      11 Christopher … When… NA          NA      NA                NA         NA     Dec …
+##  5 012      12 Sven Lautenb… Anal… NA          NA      NA                NA         NA     Jan …
+##  6 013      13 Ruslan Mamma… Gene… NA          NA      NA                NA         NA     Jan …
+##  7 014      14 Clemens Lang… Enha… NA          NA      NA                NA         NA     Jan …
+##  8 015      15 Vincent Holt… Enha… NA          NA      NA                NA         NA     Jan …
+##  9 016      16 Luisa Lo Pre… Expl… NA          NA      NA                NA         NA     Jan …
+## 10 017      17 Eveli Sisas,… Towa… NA          NA      NA                NA         NA     Jan …
+## # ℹ 15 more rows
+## # ℹ 7 more variables: Decisions <chr>, Keywords <chr>, type <chr>, information <chr>,
+## #   submission_id <chr>, paper <chr>, file <chr>
+```
+
+The text is extracted from PDFs and it is processed to create a [tidy](https://www.jstatsoft.org/article/view/v059i10) data structure without [stop words](https://en.wikipedia.org/wiki/Stop_words).
+The stop words include specific words, which might be included in the page header, abbreviations, and terms particular to scientific articles, such as `figure`.
+
+If there are issues with loading the PDF, you may try to convert the PDF to `.ps` Postscript and back, e.g., using a combination of "Print to file > Postscript" in a PDF viewer and then `ps2pdf` on the command line.
+
+
+
+25 papers successfully read.
+About 54&nbsp;% of the words are considered stop words.
+
+The following table shows how many words and non-stop words each document has, sorted by number of non-stop words.
+The `id` is built from the file name plus a prefix:
+for full papers, it is the left-padded submission number and the prefix `fp_`;
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:240px; "><table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> type </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> words </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> non-stop words </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 8920 </td>
+   <td style="text-align:right;"> 4453 </td>
+   <td style="text-align:right;"> 49.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 8476 </td>
+   <td style="text-align:right;"> 4146 </td>
+   <td style="text-align:right;"> 48.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 10075 </td>
+   <td style="text-align:right;"> 5385 </td>
+   <td style="text-align:right;"> 53.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 8171 </td>
+   <td style="text-align:right;"> 4345 </td>
+   <td style="text-align:right;"> 53.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 7404 </td>
+   <td style="text-align:right;"> 3482 </td>
+   <td style="text-align:right;"> 47.0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 9602 </td>
+   <td style="text-align:right;"> 5137 </td>
+   <td style="text-align:right;"> 53.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 6852 </td>
+   <td style="text-align:right;"> 4024 </td>
+   <td style="text-align:right;"> 58.7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 6517 </td>
+   <td style="text-align:right;"> 4201 </td>
+   <td style="text-align:right;"> 64.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 6483 </td>
+   <td style="text-align:right;"> 3316 </td>
+   <td style="text-align:right;"> 51.1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 10429 </td>
+   <td style="text-align:right;"> 6095 </td>
+   <td style="text-align:right;"> 58.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 8899 </td>
+   <td style="text-align:right;"> 4665 </td>
+   <td style="text-align:right;"> 52.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 6296 </td>
+   <td style="text-align:right;"> 3048 </td>
+   <td style="text-align:right;"> 48.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 5986 </td>
+   <td style="text-align:right;"> 2832 </td>
+   <td style="text-align:right;"> 47.3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 8671 </td>
+   <td style="text-align:right;"> 4974 </td>
+   <td style="text-align:right;"> 57.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 8597 </td>
+   <td style="text-align:right;"> 4721 </td>
+   <td style="text-align:right;"> 54.9 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 7874 </td>
+   <td style="text-align:right;"> 4151 </td>
+   <td style="text-align:right;"> 52.7 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 10041 </td>
+   <td style="text-align:right;"> 5827 </td>
+   <td style="text-align:right;"> 58.0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 7556 </td>
+   <td style="text-align:right;"> 4337 </td>
+   <td style="text-align:right;"> 57.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 7845 </td>
+   <td style="text-align:right;"> 3629 </td>
+   <td style="text-align:right;"> 46.3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 4899 </td>
+   <td style="text-align:right;"> 3012 </td>
+   <td style="text-align:right;"> 61.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 9494 </td>
+   <td style="text-align:right;"> 4996 </td>
+   <td style="text-align:right;"> 52.6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 5002 </td>
+   <td style="text-align:right;"> 3090 </td>
+   <td style="text-align:right;"> 61.8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 7897 </td>
+   <td style="text-align:right;"> 4035 </td>
+   <td style="text-align:right;"> 51.1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 7179 </td>
+   <td style="text-align:right;"> 3679 </td>
+   <td style="text-align:right;"> 51.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 7941 </td>
+   <td style="text-align:right;"> 4021 </td>
+   <td style="text-align:right;"> 50.6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;font-weight: bold;"> Full papers: 25 </td>
+   <td style="text-align:right;font-weight: bold;"> 197106 </td>
+   <td style="text-align:right;font-weight: bold;"> 105601 </td>
+   <td style="text-align:right;font-weight: bold;"> 53.6 </td>
+  </tr>
+</tbody>
+</table></div>
+
+### Which papers include a "Data and Software Availability" section?
+
+According the the [AGILE Reproducible Paper Guidelines](https://osf.io/c8gtq/), all authors must add a _Data and Software Availability_ section to their paper.
+This detection naturally relies on the loaded texts _with_ stop words.
+
+
+
+23 papers have the section in question, that is 92&nbsp;% of all submissions.
+Here are the statistics per submission type:
+
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> type </th>
+   <th style="text-align:right;"> submissions </th>
+   <th style="text-align:right;"> with DASA </th>
+   <th style="text-align:right;"> % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 92 </td>
+  </tr>
+</tbody>
+</table>
+
+Some papers might have slightly different terms because of human error or misinterpretation of the template or the guidelines.
+
+
+
+2 papers do not have a DASA section but have possible related sections in question.
+These are excerpts of the similarly matched patterns, which were found anywhere in the text, not just in headlines.
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:320px; "><table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> id </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> type </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> excerpt </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 011 </td>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:left;"> Data availability statement The </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 020 </td>
+   <td style="text-align:left;"> Full paper </td>
+   <td style="text-align:left;"> Data Availability Statement
+The </td>
+  </tr>
+</tbody>
+</table></div>
+
 The following table shows the first 30 characters of the found DASA sections.
--->
-<!--
+
+
 
 The following papers do _not_ have a DASA section based on the pattern matching above:
 
@@ -750,13 +535,13 @@ The following papers do _not_ have a DASA section based on the pattern matching 
 
 -->
 </div>
-<div id="wordstem-analysis" class="section level3">
-<h3>Wordstem analysis</h3>
+<div id="wordstem-analysis-of-all-submissions" class="section level2">
+<h2>Wordstem analysis of all submissions</h2>
 <p>For the following table and figure, the word stems were extracted
 based on a stemming algorithm from package <a
 href="https://cran.r-project.org/package=quanteda"><code>quanteda</code></a>.
-The word cloud is based on 156 unique words occuring each at least 100
-times, all in all occuring 28663 times which comprises 33 % of non-stop
+The word cloud is based on 215 unique words occuring each at least 100
+times, all in all occuring 40321 times which comprises 38 % of non-stop
 words.</p>
 <div
 style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:320px; ">
@@ -789,10 +574,10 @@ n
 data
 </td>
 <td style="text-align:right;">
-884
+1377
 </td>
 <td style="text-align:right;">
-23
+25
 </td>
 <td style="text-align:right;">
 100
@@ -806,10 +591,10 @@ data
 model
 </td>
 <td style="text-align:right;">
-679
+1227
 </td>
 <td style="text-align:right;">
-23
+25
 </td>
 <td style="text-align:right;">
 100
@@ -820,30 +605,13 @@ model
 3
 </td>
 <td style="text-align:left;">
-urban
-</td>
-<td style="text-align:right;">
-586
-</td>
-<td style="text-align:right;">
-20
-</td>
-<td style="text-align:right;">
-87
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-4
-</td>
-<td style="text-align:left;">
 spatial
 </td>
 <td style="text-align:right;">
-571
+749
 </td>
 <td style="text-align:right;">
-23
+25
 </td>
 <td style="text-align:right;">
 100
@@ -851,19 +619,36 @@ spatial
 </tr>
 <tr>
 <td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+region
+</td>
+<td style="text-align:right;">
+450
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+88
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
 5
 </td>
 <td style="text-align:left;">
-map
+analysi
 </td>
 <td style="text-align:right;">
-564
+427
 </td>
 <td style="text-align:right;">
-20
+25
 </td>
 <td style="text-align:right;">
-87
+100
 </td>
 </tr>
 <tr>
@@ -871,16 +656,16 @@ map
 6
 </td>
 <td style="text-align:left;">
-locat
+train
 </td>
 <td style="text-align:right;">
-487
+427
 </td>
 <td style="text-align:right;">
-22
+18
 </td>
 <td style="text-align:right;">
-96
+72
 </td>
 </tr>
 <tr>
@@ -888,16 +673,16 @@ locat
 7
 </td>
 <td style="text-align:left;">
-transport
+result
 </td>
 <td style="text-align:right;">
-469
+421
 </td>
 <td style="text-align:right;">
-11
+25
 </td>
 <td style="text-align:right;">
-48
+100
 </td>
 </tr>
 <tr>
@@ -905,16 +690,16 @@ transport
 8
 </td>
 <td style="text-align:left;">
-citi
+system
 </td>
 <td style="text-align:right;">
-456
+405
 </td>
 <td style="text-align:right;">
-20
+25
 </td>
 <td style="text-align:right;">
-87
+100
 </td>
 </tr>
 <tr>
@@ -922,13 +707,13 @@ citi
 9
 </td>
 <td style="text-align:left;">
-studi
+time
 </td>
 <td style="text-align:right;">
-418
+397
 </td>
 <td style="text-align:right;">
-22
+24
 </td>
 <td style="text-align:right;">
 96
@@ -939,13 +724,13 @@ studi
 10
 </td>
 <td style="text-align:left;">
-analysi
+generat
 </td>
 <td style="text-align:right;">
-400
+395
 </td>
 <td style="text-align:right;">
-23
+25
 </td>
 <td style="text-align:right;">
 100
@@ -956,16 +741,16 @@ analysi
 11
 </td>
 <td style="text-align:left;">
-inform
+imag
 </td>
 <td style="text-align:right;">
-372
+388
 </td>
 <td style="text-align:right;">
-22
+15
 </td>
 <td style="text-align:right;">
-96
+60
 </td>
 </tr>
 <tr>
@@ -973,16 +758,16 @@ inform
 12
 </td>
 <td style="text-align:left;">
-time
+distanc
 </td>
 <td style="text-align:right;">
-361
+387
 </td>
 <td style="text-align:right;">
-22
+17
 </td>
 <td style="text-align:right;">
-96
+68
 </td>
 </tr>
 <tr>
@@ -990,16 +775,16 @@ time
 13
 </td>
 <td style="text-align:left;">
-result
+studi
 </td>
 <td style="text-align:right;">
-357
+371
 </td>
 <td style="text-align:right;">
 23
 </td>
 <td style="text-align:right;">
-100
+92
 </td>
 </tr>
 <tr>
@@ -1007,16 +792,16 @@ result
 14
 </td>
 <td style="text-align:left;">
-public
+inform
 </td>
 <td style="text-align:right;">
-344
+370
 </td>
 <td style="text-align:right;">
-18
+25
 </td>
 <td style="text-align:right;">
-78
+100
 </td>
 </tr>
 <tr>
@@ -1024,16 +809,16 @@ public
 15
 </td>
 <td style="text-align:left;">
-access
+predict
 </td>
 <td style="text-align:right;">
-334
+362
 </td>
 <td style="text-align:right;">
-20
+19
 </td>
 <td style="text-align:right;">
-87
+76
 </td>
 </tr>
 <tr>
@@ -1041,13 +826,13 @@ access
 16
 </td>
 <td style="text-align:left;">
-geograph
+perform
 </td>
 <td style="text-align:right;">
-331
+353
 </td>
 <td style="text-align:right;">
-23
+25
 </td>
 <td style="text-align:right;">
 100
@@ -1058,16 +843,16 @@ geograph
 17
 </td>
 <td style="text-align:left;">
-network
+dataset
 </td>
 <td style="text-align:right;">
-326
+351
 </td>
 <td style="text-align:right;">
-19
+22
 </td>
 <td style="text-align:right;">
-83
+88
 </td>
 </tr>
 <tr>
@@ -1075,16 +860,16 @@ network
 18
 </td>
 <td style="text-align:left;">
-road
+comput
 </td>
 <td style="text-align:right;">
-322
+333
 </td>
 <td style="text-align:right;">
-13
+25
 </td>
 <td style="text-align:right;">
-57
+100
 </td>
 </tr>
 <tr>
@@ -1092,16 +877,16 @@ road
 19
 </td>
 <td style="text-align:left;">
-featur
+tempor
 </td>
 <td style="text-align:right;">
-321
+331
 </td>
 <td style="text-align:right;">
-16
+22
 </td>
 <td style="text-align:right;">
-70
+88
 </td>
 </tr>
 <tr>
@@ -1109,27 +894,26 @@ featur
 20
 </td>
 <td style="text-align:left;">
-set
+map
 </td>
 <td style="text-align:right;">
-296
+325
 </td>
 <td style="text-align:right;">
-19
+23
 </td>
 <td style="text-align:right;">
-83
+92
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="figure">
-<img src="index_files/figure-html/wordstemcloud-1.png" alt="Wordstem cloud of AGILE 2023 full paper submissions" width="1050" />
+<img src="index_files/figure-html/wordstemcloud-1.png" alt="Wordstem cloud of AGILE 2026 full paper submissions" width="1050" />
 <p class="caption">
-Wordstem cloud of AGILE 2023 full paper submissions
+Wordstem cloud of AGILE 2026 full paper submissions
 </p>
-</div>
 </div>
 </div>
 <div id="reproducible-research-related-keywords-of-all-submissions"
@@ -1216,7 +1000,7 @@ Full paper
 TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
+5
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
@@ -1225,31 +1009,31 @@ TRUE
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-17
+0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-48
+12
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-11
+21
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-61
+36
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-158
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
+300
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-303
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+377
 </td>
 </tr>
 <tr>
@@ -1260,40 +1044,84 @@ Full paper
 TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-4
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
+21
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-71
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-15
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-57
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-31
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-7
+13
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-187
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+63
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+110
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+9
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+8
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+235
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Full paper
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+128
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+191
 </td>
 </tr>
 <tr>
@@ -1311,6 +1139,112 @@ TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+20
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+98
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+33
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+159
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+29
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+15
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+100
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+8
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+158
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+6
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+28
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+17
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+59
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+14
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
@@ -1319,13 +1253,83 @@ TRUE
 3
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+137
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+24
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+69
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+21
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+128
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 6
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 13
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-113
+75
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 9
@@ -1337,7 +1341,7 @@ TRUE
 3
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-149
+116
 </td>
 </tr>
 <tr>
@@ -1348,128 +1352,40 @@ Full paper
 TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-7
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-15
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-67
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-34
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-134
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
+3
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-12
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-27
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-55
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-34
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-132
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-10
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-103
+3
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 4
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
+8
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
+75
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-126
+8
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+113
 </td>
 </tr>
 <tr>
@@ -1483,28 +1399,116 @@ TRUE
 1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+69
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+18
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Full paper
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+95
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
+1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
+1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 15
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-59
+16
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-19
+49
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+8
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
@@ -1513,7 +1517,7 @@ TRUE
 2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-108
+95
 </td>
 </tr>
 <tr>
@@ -1524,31 +1528,10 @@ Full paper
 TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-14
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-64
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-13
+0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
@@ -1557,27 +1540,60 @@ TRUE
 2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-98
+1
 </td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
 </td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+82
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 3
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
+0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
+95
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+7
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+7
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+63
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 7
@@ -1586,19 +1602,7 @@ TRUE
 1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-10
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-40
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-13
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-11
+2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 93
@@ -1612,7 +1616,7 @@ Full paper
 TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
+2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
@@ -1622,27 +1626,27 @@ TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 7
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-10
+58
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-14
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-52
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
+17
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
+1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 91
@@ -1656,95 +1660,7 @@ Full paper
 TRUE
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-60
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-13
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-86
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-13
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-8
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-19
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-20
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-63
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
@@ -1759,25 +1675,245 @@ TRUE
 5
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+12
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+46
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+16
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+91
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+58
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+16
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+90
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+9
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+64
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+84
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 6
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+6
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+36
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+18
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+5
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+83
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+7
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+64
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+9
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+83
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 41
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
+30
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-61
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+83
 </td>
 </tr>
 <tr>
@@ -1797,63 +1933,19 @@ TRUE
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-22
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-31
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-58
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 2
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
+22
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-22
+7
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+25
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 21
@@ -1862,10 +1954,54 @@ TRUE
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+80
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-56
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+7
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+25
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+17
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+57
 </td>
 </tr>
 <tr>
@@ -1888,151 +2024,39 @@ TRUE
 1
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 6
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-37
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-55
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-14
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-26
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-55
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-4
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-4
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-29
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-9
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-3
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-53
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-4
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-13
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 21
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-9
+10
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+2
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+Full paper
+</td>
+<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+TRUE
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
 1
@@ -2041,253 +2065,92 @@ TRUE
 0
 </td>
 <td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+4
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+3
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+24
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+6
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+0
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+1
+</td>
+<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
+42
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+</td>
+<td style="text-align:left;font-weight: bold;">
+T:23&amp;#124;F:2
+</td>
+<td style="text-align:right;font-weight: bold;">
 50
 </td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-5
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-17
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-17
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-48
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-30
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-9
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-45
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-Full paper
-</td>
-<td style="text-align:left;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-TRUE
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-0
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-15
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-8
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-1
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-2
-</td>
-<td style="text-align:right;font-style: italic;background-color: rgba(238, 238, 238, 255) !important;">
-32
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Full paper
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
+<td style="text-align:right;font-weight: bold;">
 3
 </td>
-<td style="text-align:right;">
-19
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-25
-</td>
-</tr>
-<tr>
-<td style="text-align:left;font-weight: bold;">
-</td>
-<td style="text-align:left;font-weight: bold;">
-T:22&amp;#124;F:1
-</td>
-<td style="text-align:right;font-weight: bold;">
-16
-</td>
-<td style="text-align:right;font-weight: bold;">
-2
-</td>
 <td style="text-align:right;font-weight: bold;">
 0
 </td>
 <td style="text-align:right;font-weight: bold;">
-52
+66
 </td>
 <td style="text-align:right;font-weight: bold;">
-100
+84
 </td>
 <td style="text-align:right;font-weight: bold;">
-148
+162
 </td>
 <td style="text-align:right;font-weight: bold;">
-266
+331
 </td>
 <td style="text-align:right;font-weight: bold;">
-1126
+1789
 </td>
 <td style="text-align:right;font-weight: bold;">
-315
+340
 </td>
 <td style="text-align:right;font-weight: bold;">
-16
+34
 </td>
 <td style="text-align:right;font-weight: bold;">
-45
+36
 </td>
 <td style="text-align:right;font-weight: bold;">
-2108
+2918
 </td>
 </tr>
 </tbody>
 </table>
 </div>
-<hr />
 <!--
 
 ## Accepted full papers
 
 ### Full paper decisions
 
-There is "accept" and "conditionally accept" (after second review)!
 
--->
-<!--
+
+
 
 ### Which accepted papers do still not hava a DASA section
 
--->
-<!--
 
-### Which papers have a link to the reproducibility review
-
-_Does not work reliably yet._
-**_Furthermore, this is not critical anymore because Copernicus now adds a reference to the reproducibility reports._**
-These are the papers where the reproducibility review resulted in at least partially successful reproduction.
 
 -->
 </div>
@@ -2298,18 +2161,25 @@ These are the papers where the reproducibility review resulted in at least parti
 <p>The assignment of reviews is done via a privately shared spreadsheet,
 to handle potential non-public comments. The main outcome of the reviews
 is a <em>report</em>, which is published in individual OSF projects as
-components of the <a href="https://osf.io/t8qw5/">OSF project for the
-reproducibility reviews 2025</a>. The report should be based on a
-template from this repository in <a
-href="report-template"><code>report-template</code></a>.</p>
+components of the <a href="https://osf.io/hmxda/">OSF project for the
+reproducibility reviews 2026</a> or on <a
+href="https://researchequals.com/">ResearchEquals</a>. The report should
+be based on one of the templates in the <a
+href="https://github.com/reproducible-agile/reviews-2025/tree/main/report-template"><code>report-template</code>
+folder</a> in the repository for the 2026 reproducibility reviews.</p>
+</div>
+<div id="forming-the-reproducibility-committee" class="section level3">
+<h3>Forming the reproducibility committee</h3>
+<p>Send an email to participate in the committee before the deadline
+reminders for full papers.</p>
+<ul>
+<li>Directly to all members of previous years’ reproducibility
+committees</li>
+<li>To AGILE Community Mailing List: <a
+href="mailto:agile-community@googlegroups.com"
+class="uri">mailto:agile-community@googlegroups.com</a></li>
+</ul>
 <!--
-
-### Forming the reproducibility committee
-
-Send an email to participate in the committee before the deadline reminders for full papers.
-
-- Directly to all members of previous years' reproducibility committees
-- To AGILE Community Mailing List: <mailto:agile-community@googlegroups.com>
 
 ### Prepare reproducibility packages for reviewers
 
@@ -2325,10 +2195,8 @@ The spreadsheet is privately shared at <https://docs.google.com/spreadsheets/d/1
 review_data_csv_file <- file.path(review_files_path, paste0("review_data_", lubridate::year(lubridate::now()), ".csv"))
 ```
 
-1. Write paper metadata (ID, decision, title) to a CSV file /home/rstudio/review-material/review_data_2025.csv
+1. Write paper metadata (ID, decision, title) to a CSV file /home/daniel/git/reproducible-agile/reviews-2026/review-material/review_data_2026.csv
 1. **Manually** [import the paper metadata into the spreadsheet](https://www.tillerhq.com/how-to-import-csv-into-a-google-spreadsheet/) (Select cell `A1` then "File" > "Import" > "Import File" > "My Drive" then search for `review_data` and find `review_data.csv` then select the file > "Replace data at selected cell" and click "Import data")
-
-
 
 
 
@@ -2350,7 +2218,7 @@ review_data_csv_file <- file.path(review_files_path, paste0("review_data_", lubr
 
 
 ``` r
-if(params$private_info) {
+if(params$private_info && interactive()) {
   googlesheets4::range_read(
     ss = "https://docs.google.com/spreadsheets/d/1q_oOQtv0m5gsKpCtTLhgyfbEMOBCC3dFw6M00mzyNYc/edit",
     range =  "review_data!A:F",
@@ -2375,7 +2243,7 @@ href="https://doi.org/10.17605/OSF.IO/CB7Z8"><em>Reproducibility
 Reviewer Guidelines</em> in the Reproducible Paper Guidelines</a> the
 following steps are just a tl;dr version</li>
 <li>Take a look at the <a
-href="https://github.com/reproducible-agile/reviews-2025/blob/master/report-template/">review
+href="https://github.com/reproducible-agile/reviews-2026/blob/master/report-template/">review
 report templates</a> in RMarkdown and Office (.docx &amp; .odt) - even
 if you’re not using it, it gives you guidance on structure and content;
 you are welcome to write your report with any tool that can produce a
@@ -2433,7 +2301,7 @@ computation times should not expand longer than a working day</li>
 <li>Send the report to the original authors of the paper and add the
 reproducibility chair in CC, see template below;</li>
 <li>Add a new component to the <a href="https://osf.io/t8qw5/">OSF
-project for 2025 reproducibility reviews</a> <em>OR</em> create a new
+project for 2026 reproducibility reviews</a> <em>OR</em> create a new
 module on <a href="https://www.researchequals.com">ResearchEquals</a>
 <ul>
 <li><strong>On OSF</strong>
@@ -2517,9 +2385,9 @@ module’s “Reference list”</li>
 <ol style="list-style-type: decimal">
 <li>Create a repository like this one based on the previous year</li>
 <li>Screen the accepted papers</li>
-<li>Distribute the reproductions amongst the committee members</li>
-<li>Support during reproductions, give feedback, advise on issues,
-…</li>
+<li>Distribute the reproductions among the committee members</li>
+<li>Support committee members during reproductions, give feedback,
+advise on problems, …</li>
 <li>After reports publication
 <ul>
 <li>Add reports on ResearchEquals to the collections <a
@@ -2539,6 +2407,9 @@ href="https://docs.gitlab.com/ee/user/project/settings/#archiving-a-project">ins
 for GitLab</a>)</li>
 <li>Double check all OSF projects have a DOI and a registration</li>
 </ul></li>
+<li>Contact conference chairs to coordinate on the presentation of the
+reproducibility review overview at the conference, e.g., at the AGILE
+meeting or the closing session</li>
 </ol>
 </div>
 <div id="email-templates-for-contacting-authors" class="section level3">
@@ -2547,7 +2418,7 @@ for GitLab</a>)</li>
 <h4>Reminder DASA by reproducibility chair</h4>
 <pre><code>Dear &lt;AUTHORS&gt;,
 
-I&#39;m contacting you as the corresponding author of the paper &quot;&lt;TITLE&gt;&quot; submitted to AGILE 2025.
+I&#39;m contacting you as the corresponding author of the paper &quot;&lt;TITLE&gt;&quot; submitted to AGILE 2026.
 
 In my screening of accepted papers I saw that your submission does not include a Data and Software Availability (&quot;DASA&quot;) section. Please note that a DASA section with precisely that name is mandatory. Furthermore a successful reproduction of your workflow would be an advertisement for your paper.
 
@@ -2556,13 +2427,13 @@ Please provide the DASA section by the end of the week so we can start the repro
 Regards,
 Carlos, Frank &amp; Daniel
 
-AGILE Reproducibility Committee Co-chairs 2025</code></pre>
+AGILE Reproducibility Committee Co-chairs 2026</code></pre>
 </div>
 <div id="reminder-dasa" class="section level4">
 <h4>Reminder DASA</h4>
 <pre><code>Dear &lt;AUTHORS&gt;,
 
-I&#39;m contacting you as the corresponding author of the paper &quot;&lt;TITLE&gt;&quot; submitted to AGILE 2025.
+I&#39;m contacting you as the corresponding author of the paper &quot;&lt;TITLE&gt;&quot; submitted to AGILE 2026.
 I&#39;m the reproducibility reviewer your paper has been assigned to.
 
 The scientific reviewers have noted that your paper does not include a Data and Software Availability (&quot;DASA&quot;) section.
@@ -2573,14 +2444,14 @@ Please provide the DASA section by &lt;DEADLINE&gt; so we can start the reproduc
 Regards,
 &lt;NAME&gt;
 
-AGILE Reproducibility Committee 2025</code></pre>
+AGILE Reproducibility Committee 2026</code></pre>
 </div>
 <div id="reminder-dasa-synthetic-data-for-proprietary-data"
 class="section level4">
 <h4>Reminder DASA + synthetic data for proprietary data</h4>
 <pre><code>Dear &lt;AUTHORS&gt;,
 
-I&#39;m contacting you as the corresponding author of the paper &quot;&lt;TITLE&gt;&quot; submitted to AGILE 2025.
+I&#39;m contacting you as the corresponding author of the paper &quot;&lt;TITLE&gt;&quot; submitted to AGILE 2026.
 I&#39;m the reproducibility reviewer your paper has been assigned to.
 
 The scientific reviewers &lt;SELECT: have, have not&gt; note that your paper does not include a dedicated Data and Software Availability (&quot;DASA&quot;) section. This section should provide a concise statement if and where data and software is available, or why it is not public. Please note that a DASA section is mandatory, even if data or code is not available.
@@ -2591,13 +2462,13 @@ In your manuscript you state that both code and data cannot be shared due to lic
 Kind regards,
 &lt;NAME&gt;
 
-AGILE Reproducibility Committee 2025</code></pre>
+AGILE Reproducibility Committee 2026</code></pre>
 </div>
 <div id="initial-contact" class="section level4">
 <h4>Initial contact</h4>
 <pre><code>Dear &lt;authors&gt;,
 
-congratulations on the acceptance of your submission &lt;TITLE&gt; as an AGILE 2025 full paper.
+congratulations on the acceptance of your submission &lt;TITLE&gt; as an AGILE 2026 full paper.
 
 I am assigned as reproducibility reviewer to your paper and would kindly ask you to share a non-anonymised version of your manuscript, or simply share the redacted URL from your manuscript. It would be great to get this as soon as possible to begin the evaluation of the reproducibility.
 
@@ -2607,13 +2478,13 @@ If you have any questions regarding AGILE&#39;s reproducibility review, please d
 Kind regards,
 &lt;NAME&gt;
 
-AGILE Reproducibility Committee 2025</code></pre>
+AGILE Reproducibility Committee 2026</code></pre>
 </div>
 <div id="share-report-draft" class="section level4">
 <h4>Share report draft</h4>
 <pre><code>Dear AUTHORS,
 
-Congratulations on the acceptance of your submission &quot;TITLE&quot; as a full paper at the AGILE conference 2025.
+Congratulations on the acceptance of your submission &quot;TITLE&quot; as a full paper at the AGILE conference 2026.
 
 As part of the Reproducible AGILE initiative (https://reproducible-agile.github.io/) I attempted to reproduce the results from your paper. Attached to this email you find my report on your results. I welcome your feedback before I publish the report.
 The reproducibility report will be published soon after the paper is published by Copernicus, so we can ensure proper linking of your work in the report (using a DOI) and vice versa.
@@ -2625,7 +2496,7 @@ Please don&#39;t hesitate to get in touch with me and Daniel Nüst (CC&#39;ed), 
 Best regards,
 &lt;NAME&gt;
 
-AGILE Reproducibility Committee 2025</code></pre>
+AGILE Reproducibility Committee 2026</code></pre>
 </div>
 <div id="report-published" class="section level4">
 <h4>Report published</h4>
@@ -2640,7 +2511,7 @@ Please don&#39;t hesitate to get in touch with Daniel Nüst (CC&#39;ed), AGILE c
 Best regards,
 &lt;NAME&gt;
 
-AGILE Reproducibility Committee 2025</code></pre>
+AGILE Reproducibility Committee 2026</code></pre>
 </div>
 </div>
 </div>
@@ -2653,46 +2524,51 @@ licensed under the <a
 href="https://choosealicense.com/licenses/apache-2.0/">Apache License
 2.0</a>.</p>
 <p><strong>Runtime environment description:</strong></p>
-<pre><code>## R version 4.4.2 (2024-10-31)
+<pre><code>## R version 4.5.2 (2025-10-31)
 ## Platform: x86_64-pc-linux-gnu
-## Running under: Ubuntu 24.04.1 LTS
+## Running under: Ubuntu 22.04.5 LTS
 ## 
 ## Matrix products: default
-## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+## BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.0 
+## LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.0  LAPACK version 3.10.0
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_US.UTF-8          LC_NUMERIC=C                  LC_TIME=en_US.UTF-8          
-##  [4] LC_COLLATE=en_US.UTF-8        LC_MONETARY=en_US.UTF-8       LC_MESSAGES=en_US.UTF-8      
-##  [7] LC_PAPER=en_US.UTF-8          LC_NAME=en_US.UTF-8           LC_ADDRESS=en_US.UTF-8       
-## [10] LC_TELEPHONE=en_US.UTF-8      LC_MEASUREMENT=en_US.UTF-8    LC_IDENTIFICATION=en_US.UTF-8
+##  [1] LC_CTYPE=en_US.UTF-8          LC_NUMERIC=C                  LC_TIME=de_DE.UTF-8          
+##  [4] LC_COLLATE=en_US.UTF-8        LC_MONETARY=de_DE.UTF-8       LC_MESSAGES=en_US.UTF-8      
+##  [7] LC_PAPER=de_DE.UTF-8          LC_NAME=de_DE.UTF-8           LC_ADDRESS=de_DE.UTF-8       
+## [10] LC_TELEPHONE=de_DE.UTF-8      LC_MEASUREMENT=de_DE.UTF-8    LC_IDENTIFICATION=de_DE.UTF-8
 ## 
-## time zone: Etc/UTC
+## time zone: Europe/Berlin
 ## tzcode source: system (glibc)
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] stats     graphics  grDevices datasets  utils     methods   base     
 ## 
 ## other attached packages:
-##  [1] tabulapdf_1.0.5-5   glue_1.8.0          rvest_1.0.4         xml2_1.3.7          httr_1.4.7         
-##  [6] kableExtra_1.4.0    googlesheets4_1.1.1 googledrive_2.1.1   quanteda_4.2.0      here_1.0.1         
-## [11] wordcloud_2.6       RColorBrewer_1.1-3  tidytext_0.4.2      lubridate_1.9.4     forcats_1.0.0      
-## [16] dplyr_1.1.4         purrr_1.0.4         readr_2.1.5         tidyr_1.3.1         tibble_3.2.1       
-## [21] ggplot2_3.5.1       tidyverse_2.0.0     stringr_1.5.1       pdftools_3.5.0     
+##  [1] tabulapdf_1.0.5-5   glue_1.8.0          rvest_1.0.5         xml2_1.5.2         
+##  [5] httr_1.4.8          kableExtra_1.4.0    googlesheets4_1.1.2 googledrive_2.1.2  
+##  [9] quanteda_4.3.1      here_1.0.2          wordcloud_2.6       RColorBrewer_1.1-3 
+## [13] tidytext_0.4.3      lubridate_1.9.5     forcats_1.0.1       dplyr_1.2.0        
+## [17] purrr_1.2.1         readr_2.1.6         tidyr_1.3.2         tibble_3.3.1       
+## [21] ggplot2_4.0.2       tidyverse_2.0.0     stringr_1.6.0       pdftools_3.7.0     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] fastmatch_1.1-6   gtable_0.3.6      xfun_0.51         bslib_0.9.0       rJava_1.0-11     
-##  [6] gargle_1.5.2      lattice_0.22-6    tzdb_0.4.0        vctrs_0.6.5       tools_4.4.2      
-## [11] generics_0.1.3    curl_6.2.1        janeaustenr_1.0.0 pkgconfig_2.0.3   tokenizers_0.3.0 
-## [16] Matrix_1.7-1      lifecycle_1.0.4   compiler_4.4.2    munsell_0.5.1     htmltools_0.5.8.1
-## [21] SnowballC_0.7.1   sass_0.4.9        yaml_2.3.10       pillar_1.10.1     jquerylib_0.1.4  
-## [26] rsconnect_1.3.3   cachem_1.1.0      stopwords_2.3     tidyselect_1.2.1  digest_0.6.37    
-## [31] stringi_1.8.4     rprojroot_2.0.4   fastmap_1.2.0     grid_4.4.2        colorspace_2.1-1 
-## [36] cli_3.6.4         magrittr_2.0.3    withr_3.0.2       scales_1.3.0      timechange_0.3.0 
-## [41] rmarkdown_2.29    qpdf_1.3.4        cellranger_1.1.0  png_0.1-8         askpass_1.2.1    
-## [46] hms_1.1.3         evaluate_1.0.3    knitr_1.49        viridisLite_0.4.2 rlang_1.1.5      
-## [51] Rcpp_1.0.14       selectr_0.4-2     svglite_2.1.3     rstudioapi_0.17.1 jsonlite_1.9.1   
-## [56] R6_2.6.1          systemfonts_1.1.0 fs_1.6.5</code></pre>
+##  [1] tidyselect_1.2.1  viridisLite_0.4.3 farver_2.1.2      S7_0.2.1          fastmap_1.2.0    
+##  [6] janeaustenr_1.0.0 promises_1.5.0    digest_0.6.39     mime_0.13         timechange_0.4.0 
+## [11] lifecycle_1.0.5   qpdf_1.4.1        tokenizers_0.3.0  processx_3.8.6    magrittr_2.0.4   
+## [16] compiler_4.5.2    rlang_1.1.7       sass_0.4.10       tools_4.5.2       utf8_1.2.6       
+## [21] yaml_2.3.12       knitr_1.51        askpass_1.2.1     stopwords_2.3     bit_4.6.0        
+## [26] curl_7.0.0        websocket_1.4.4   withr_3.0.2       grid_4.5.2        scales_1.4.0     
+## [31] cli_3.6.5         crayon_1.5.3      rmarkdown_2.30    generics_0.1.4    otel_0.2.0       
+## [36] rstudioapi_0.18.0 tzdb_0.5.0        dadjokeapi_1.0.2  cachem_1.1.0      chromote_0.5.1   
+## [41] parallel_4.5.2    selectr_0.5-1     cellranger_1.1.0  vctrs_0.7.1       Matrix_1.7-4     
+## [46] jsonlite_2.0.0    hms_1.1.4         bit64_4.6.0-1     systemfonts_1.3.1 jquerylib_0.1.4  
+## [51] ps_1.9.1          stringi_1.8.7     rJava_1.0-14      gtable_0.3.6      later_1.4.6      
+## [56] bspm_0.5.7        pillar_1.11.1     rappdirs_0.3.4    htmltools_0.5.9   openssl_2.3.4    
+## [61] R6_2.6.1          textshaping_1.0.4 rprojroot_2.1.1   vroom_1.7.0       evaluate_1.0.5   
+## [66] lattice_0.22-9    png_0.1-8         SnowballC_0.7.1   gargle_1.6.1      httpuv_1.6.16    
+## [71] bslib_0.10.0      Rcpp_1.1.1        fastmatch_1.1-8   svglite_2.2.2     xfun_0.56        
+## [76] fs_1.6.6          pkgconfig_2.0.3</code></pre>
 </div>
 
 
