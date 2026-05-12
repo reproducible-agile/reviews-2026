@@ -51,9 +51,9 @@ For more information see [https://reproducible-agile.github.io/](https://reprodu
 This document is published on ResearchEquals TODO LINK HERE.
 To cite the report use
 
-<!-- https://researchequals.com/outputs/03981165-03b1-4b1f-9d42-32389d7d6ae1/draft -->
+<!-- https://researchequals.com/en-US/outputs/116c857f-62fe-4ee3-94bd-a31dcb8aafd0/draft -->
 
-> TODO FULL REPORT CITATION HERE
+> TODO FULL REPORT CITATION HERE https://doi.org/10.53962/pdw8-n5v0
 
 # Reviewed paper
 
@@ -61,7 +61,10 @@ TODO ADD FULL CITATION
 
 # Summary
 
-TODO ADD SUMMARY
+The article presents a comparative spatio-temporal analysis of food insecurity projections in Somalia.
+A workflow is provided as a collection of scripts and the environment is a Docker compose configuration.
+This workflow as described could be executed and all figures and maps from the article were recreated with the code and data provided.
+The reproduction is fully successful.
 
 \clearpage
 
@@ -98,13 +101,6 @@ Rasterizing: current 2019-09-01
 
 [...]
 
-  |== [...] ==========================================| 100%
-Rasterizing proj 18718 18779 
-  |== [...] ==========================================| 100%
-  |== [...] ==========================================| 100%
-Rasterizing current 17348 17348 
-  |== [...] ==========================================| 100%
-  |== [...] ==========================================| 100%
 Rasterizing proj 17379 17501 
   |== [...] ==========================================| 100%
   |== [...] ==========================================| 100%
@@ -126,21 +122,8 @@ Opening <http://localhost:8887/> in the browser shows the RStudio IDE, and I can
 The script completes and ends with the following output:
 
 ```{bash workflow_log_end, eval=FALSE, size="scriptsize"}
-Rasterizing current 19723 19783 
-  |===========================================================================================================| 100%
-  |===========================================================================================================| 100%
-Rasterizing proj 19814 19875 
-  |===========================================================================================================| 100%
-  |===========================================================================================================| 100%
-Rasterizing current 20089 20148 
-  |===========================================================================================================| 100%
-  |===========================================================================================================| 100%
-Rasterizing proj 20179 20240 
-  |===========================================================================================================| 100%
-  |===========================================================================================================| 100%
-Rasterizing current 20270 20332 
-  |===========================================================================================================| 100%
-  |===========================================================================================================| 100%
+[...]
+
 Rasterizing proj 20362 20423 
   |===========================================================================================================| 100%
   |===========================================================================================================| 100%
@@ -164,8 +147,8 @@ chr  (3): adm2_name, adm2_pcode, scenario
 dbl  (2): phase_majority, phase_mean
 date (1): month
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+(i) Use `spec()` to retrieve the full column specification for this data.
+(i) Specify the column types or set `show_col_types = FALSE` to quiet this message.
 Rows: 20839 Columns: 6                                                                                               
 -- Column specification ----------------------------------------------------------------------------------------------
 Delimiter: ","
@@ -173,8 +156,8 @@ chr  (3): adm2_name, adm2_pcode, scenario
 dbl  (2): phase_majority, phase_mean
 date (1): month
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+(i) Use `spec()` to retrieve the full column specification for this data.
+(i) Specify the column types or set `show_col_types = FALSE` to quiet this message.
 Deleting source `figs/map_files/ipc_mean_proj.gpkg' failed
 Writing layer `ipc_mean_proj' to data source `figs/map_files/ipc_mean_proj.gpkg' using driver `GPKG'
 Writing 91 features with 29 fields and geometry type Multi Polygon.
@@ -194,8 +177,8 @@ chr  (3): adm2_name, adm2_pcode, scenario
 dbl  (2): phase_majority, phase_mean
 date (2): start, end
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+(i) Use `spec()` to retrieve the full column specification for this data.
+(i) Specify the column types or set `show_col_types = FALSE` to quiet this message.
 Rows: 3185 Columns: 7                                                                                                
 -- Column specification ---------------------------------------------------------------------------------------------
 Delimiter: ","
@@ -203,8 +186,8 @@ chr  (3): adm2_name, adm2_pcode, scenario
 dbl  (2): phase_majority, phase_mean
 date (2): start, end
 
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+(i) Use `spec()` to retrieve the full column specification for this data.
+(i) Specify the column types or set `show_col_types = FALSE` to quiet this message.
 Deleting source `figs/map_files/fews_mean_bias.gpkg' failed
 Writing layer `fews_mean_bias' to data source `figs/map_files/fews_mean_bias.gpkg' using driver `GPKG'
 Writing 91 features with 4 fields and geometry type Multi Polygon.
@@ -220,79 +203,113 @@ Unfortunately the README is lacking information to connect the generated files t
 
 Contents of `figs` directory:
 
-```{txt tree_figs, eval=FALSE, size="scriptsize"}
+```{bash tree_figs, eval=FALSE, size="scriptsize"}
 figs/
-├-- Bias_matrices.png
-├-- Error_timeline.png
-├-- map_files
-│   ├-- fews_mean_bias.gpkg
-│   ├-- fews_mean_proj.gpkg
-│   ├-- fews_proj_highclass.gpkg
-│   ├-- ipc_mean_bias.gpkg
-│   ├-- ipc_mean_proj.gpkg
-│   └-- ipc_proj_highclass.gpkg
-└-- Timeline_mean_phase.png
+|-- Bias_matrices.png
+|-- Error_timeline.png
+|-- map_files
+|   |-- fews_mean_bias.gpkg
+|   |-- fews_mean_proj.gpkg
+|   |-- fews_proj_highclass.gpkg
+|   |-- ipc_mean_bias.gpkg
+|   |-- ipc_mean_proj.gpkg
+|   |-- ipc_proj_highclass.gpkg
+|-- Timeline_mean_phase.png
 ```
 
 Contents of `data/` directory, as a condensed view (the full tree is very large, with many timestamped files, so I collapse them into date ranges with a coding agent):
 
-```{txt tree_data, eval=FALSE, size="scriptsize"}
+```{bash tree_data, eval=FALSE, size="scriptsize"}
 data/
-├-- FEWSNET_lhz
-│   ├-- SO_2009_Cwt9JU5
-│   │   └-- SO_Admin2_LHZ_2009.3.{CPG,dbf,prj,sbn,sbx,shp,shx}        (7 files)
-│   ├-- SO_2011_tjAQFko
-│   │   └-- SO_Admin2_LHZ_2011.3.{CPG,dbf,prj,sbn,sbx,shp,shp.xml,shx} (8 files)
-│   └-- SO_Admin2_LHZ_2016
-│       └-- SO_Admin2_LHZ_2016.2.{cpg,dbf,prj,sbn,sbx,shp,shp.xml,shx} (8 files)
-├-- intermediate
-│   ├-- fews_all_long.gpkg
-│   ├-- fews_all_long_ts.gpkg
-│   ├-- fewsnet_all_geom.gpkg
-│   ├-- IPC_all_long.gpkg
-│   ├-- IPC_all_long_ts.gpkg
-│   ├-- ipc_cs_p1_all.gpkg
-│   ├-- fews_monthly_rasters
-│   │   ├-- CS_<DATE>.tif      DATE ∈ [2017-02-01 … 2025-10-01]   (25 files, quarterly Feb/Jun/Oct)
-│   │   ├-- ML1_<DATE>.tif     DATE ∈ [2017-02-01 … 2026-01-01]   (100 files, ~monthly w/ gaps)
-│   │   └-- ML2_<DATE>.tif     DATE ∈ [2017-02-01 … 2026-05-01]   (104 files, ~monthly w/ gaps)
-│   ├-- fews_period_rasters
-│   │   ├-- CS_<START>_<END>.tif   START ∈ [2017-02-01 … 2025-10-01]   (25 files)
-│   │   ├-- ML1_<START>_<END>.tif  START ∈ [2017-02-01 … 2025-10-01]   (75 files)
-│   │   └-- ML2_<START>_<END>.tif  START ∈ [2017-02-01 … 2026-02-01]   (26 files)
-│   ├-- ipc_monthly_rasters
-│   │   ├-- current_<DATE>.tif  DATE ∈ [2017-01-01 … 2025-09-01]   (40 files)
-│   │   └-- proj_<DATE>.tif     DATE ∈ [2017-02-01 … 2025-12-01]   (61 files)
-│   └-- ipc_period_rasters
-│       ├-- current_<START>_<END>.tif  START ∈ [2017-01-01 … 2025-07-01]   (18 files)
-│       └-- proj_<START>_<END>.tif     START ∈ [2017-02-01 … 2025-10-01]   (17 files)
-├-- IPC_current_API
-│   └-- Somalia_Acute_Food_Insecurity_<MONTH>_<YEAR>.geojson           (9 files, Jan/Jul/Aug 2017–2021)
-├-- IPC_p1_API
-│   └-- Somalia_Acute_Food_Insecurity_<MONTH>_<YEAR>.geojson           (9 files, same coverage as IPC_current_API)
-├-- IPC_website_dl
-│   └-- Somalia-Acute Food Insecurity <MONTH> <YEAR>.json + 1 Post GU  (9 files, scattered 2022–2025)
-├-- outputs
-│   ├-- fews_adm2_period.csv
-│   ├-- fews_adm2_ts.csv
-│   ├-- ipc_adm2_period.csv
-│   └-- ipc_adm2_ts.csv
-├-- som_admin2.geojson
-└-- somalia_fews_all.csv
+|-- FEWSNET_lhz
+|   |-- SO_2009_Cwt9JU5
+|   |   |-- SO_Admin2_LHZ_2009.3.{CPG,dbf,prj,sbn,sbx,shp,shx}        (7 files)
+|   |-- SO_2011_tjAQFko
+|   |   |-- SO_Admin2_LHZ_2011.3.{CPG,dbf,prj,sbn,sbx,shp,shp.xml,shx} (8 files)
+|   |-- SO_Admin2_LHZ_2016
+|       |-- SO_Admin2_LHZ_2016.2.{cpg,dbf,prj,sbn,sbx,shp,shp.xml,shx} (8 files)
+|-- intermediate
+|   |-- fews_all_long.gpkg
+|   |-- fews_all_long_ts.gpkg
+|   |-- fewsnet_all_geom.gpkg
+|   |-- IPC_all_long.gpkg
+|   |-- IPC_all_long_ts.gpkg
+|   |-- ipc_cs_p1_all.gpkg
+|   |-- fews_monthly_rasters
+|   |   |-- CS_<DATE>.tif      DATE in [2017-02-01 … 2025-10-01]   (25 files, quarterly Feb/Jun/Oct)
+|   |   |-- ML1_<DATE>.tif     DATE in [2017-02-01 … 2026-01-01]   (100 files, ~monthly w/ gaps)
+|   |   |-- ML2_<DATE>.tif     DATE in [2017-02-01 … 2026-05-01]   (104 files, ~monthly w/ gaps)
+|   |-- fews_period_rasters
+|   |   |-- CS_<START>_<END>.tif   START in [2017-02-01 … 2025-10-01]   (25 files)
+|   |   |-- ML1_<START>_<END>.tif  START in [2017-02-01 … 2025-10-01]   (75 files)
+|   |   |-- ML2_<START>_<END>.tif  START in [2017-02-01 … 2026-02-01]   (26 files)
+|   |-- ipc_monthly_rasters
+|   |   |-- current_<DATE>.tif  DATE in [2017-01-01 … 2025-09-01]   (40 files)
+|   |   |-- proj_<DATE>.tif     DATE in [2017-02-01 … 2025-12-01]   (61 files)
+|   |-- ipc_period_rasters
+|       |-- current_<START>_<END>.tif  START in [2017-01-01 … 2025-07-01]   (18 files)
+|       |-- proj_<START>_<END>.tif     START in [2017-02-01 … 2025-10-01]   (17 files)
+|-- IPC_current_API
+|   |-- Somalia_Acute_Food_Insecurity_<MONTH>_<YEAR>.geojson           (9 files, Jan/Jul/Aug 2017–2021)
+|-- IPC_p1_API
+|   |-- Somalia_Acute_Food_Insecurity_<MONTH>_<YEAR>.geojson           (9 files, same coverage as IPC_current_API)
+|-- IPC_website_dl
+|   |-- Somalia-Acute Food Insecurity <MONTH> <YEAR>.json + 1 Post GU  (9 files, scattered 2022–2025)
+|-- outputs
+|   |-- fews_adm2_period.csv
+|   |-- fews_adm2_ts.csv
+|   |-- ipc_adm2_period.csv
+|   |-- ipc_adm2_ts.csv
+|-- som_admin2.geojson
+|-- somalia_fews_all.csv
 
 13 directories, 553 files
 ```
 
-The following figure files match the ones in the article.
+I committed the files in `figs/` and `data/outputs` to the local git repo, but did not commit the 500MB+ of `data/intermediate` but only saved a generated `indext.txt`: [`9e1ff66fb417f1d73018d02f4825bc6d737c6000`](https://github.com/GIScience/agile2026_food_insecurity_anticipatory_action/commit/9e1ff66fb417f1d73018d02f4825bc6d737c6000)
 
+The following **figure files** generated by the code match the ones in the article fully based on visual inspection:
 
+```{r timeline-mean-phase, echo=FALSE, fig.cap="Reproduced Timeline of mean phase (cf. Fig. 1 in the paper)", out.width="100%"}
+knitr::include_graphics("agile2026_food_insecurity_anticipatory_action/figs/Timeline_mean_phase.png")
+```
 
-TODO: FINISH CONTINUE WITH COMPARING OUTPUT FILES TO ARTICLE
+```{r bias-matrices, echo=FALSE, fig.cap="Reproduced Bias matrices (cf. Fig. 4 in the paper)", out.width="100%"}
+knitr::include_graphics("agile2026_food_insecurity_anticipatory_action/figs/Bias_matrices.png")
+```
+
+```{r error-timeline, echo=FALSE, fig.cap="Reproduced Error timeline (cf. Fig. 5 in the paper)", out.width="100%"}
+knitr::include_graphics("agile2026_food_insecurity_anticipatory_action/figs/Error_timeline.png")
+```
+
+Regarding the **map files** in the output folder, opening `QGIS/Map_visualizations.qgz` now works without errors.
+By selecting different layers in the QGIS project, I can visually verify that the maps match the ones in the article with some cartographic differences only, see screenshots below.
+
+```{r qgis-figure-2, echo=FALSE, fig.show="hold", out.width="49%", fig.cap="Screenshots of reproduced maps for Figure 2: FEWS NET mean (left) and IPC mean (right)."}
+knitr::include_graphics(c(
+  "agile2026_food_insecurity_anticipatory_action/QGIS/screenshot_figure-2-left_fewsnet_mean.png",
+  "agile2026_food_insecurity_anticipatory_action/QGIS/screenshot_figure-2-right_ipc_mean.png"
+))
+```
+
+```{r qgis-figure-3, echo=FALSE, fig.show="hold", out.width="49%", fig.cap="Screenshots of reproduced maps for Figure 3: share of projections of emergency/famine FEWS NET (left, layer named 'FEWSNET' incorrectly) and IPC (right)."}
+knitr::include_graphics(c(
+  "agile2026_food_insecurity_anticipatory_action/QGIS/screenshot_figure-3-left_fewsnet_percentage.png",
+  "agile2026_food_insecurity_anticipatory_action/QGIS/screenshot_figure-3-right_ipc_percentage.png"
+))
+```
+
+```{r qgis-figure-6, echo=FALSE, fig.show="hold", out.width="49%", fig.cap="Screenshots of reproduced maps Figure 6: FEWS NET projection bias (left) and IPC projection bias (right)."}
+knitr::include_graphics(c(
+  "agile2026_food_insecurity_anticipatory_action/QGIS/screenshot_figure-6-left_fewsnet_projection-bias.png",
+  "agile2026_food_insecurity_anticipatory_action/QGIS/screenshot_figure-6-right_ipc_projection-bias.png"
+))
+```
 
 ## Recommendations to the authors
 
 - Add a license to the repository on GitHub, to clarify the legal situation for users and potential reusers of the code and data; this must also make transparent the licenses of the included data
-- Publish the data and code in a citable form (the licenses of the data files seem to allow redistribution) with a DOI, then properly cite it in your manuscript
+- Publish the data and code, even the output data, in a citable form (the licenses of the data files seem to allow redistribution) with a DOI, then properly cite it in your manuscript
 - Provide a usable environment specification that also pins versions (renv, etc.) and save your R session info output for transparency
 - In the README on GitHub:
   - Include processing times (including efforts that went into preprocessing) to manage expectations of users with limited time or computational resources, and to make preprocessing efforts more transparent
