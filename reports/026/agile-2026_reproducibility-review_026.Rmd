@@ -48,16 +48,16 @@ knitr::include_graphics(temp)
 
 This report is part of the reproducibility review at the AGILE conference.
 For more information see [https://reproducible-agile.github.io/](https://reproducible-agile.github.io/).
-This document is published on ResearchEquals TODO LINK HERE.
+This document is published on ResearchEquals at <https://doi.org/10.53962/pdw8-n5v0>.
 To cite the report use
 
 <!-- https://researchequals.com/en-US/outputs/116c857f-62fe-4ee3-94bd-a31dcb8aafd0/draft -->
 
-> TODO FULL REPORT CITATION HERE https://doi.org/10.53962/pdw8-n5v0
+> Nüst, D. (2026). Reproducibility review of: Food Insecurity Projections for Anticipatory Action: A Comparative Spatiotemporal Analysis of FEWS NET and the IPC in Somalia. ResearchEquals <https://doi.org/10.53962/pdw8-n5v0>
 
 # Reviewed paper
 
-TODO ADD FULL CITATION
+Seyffer, F., Schauss, A., Tirai, S., Maurer, M., Lautenbach, S., and Zipf, A.: Food Insecurity Projections for Anticipatory Action: Comparative Spatiotemporal Analysis of FEWS NET and the IPC in Somalia, AGILE GIScience Ser., 7, 17, <https://doi.org/10.5194/agile-giss-7-17-2026>, 2026.
 
 # Summary
 
