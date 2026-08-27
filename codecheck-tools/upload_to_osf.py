@@ -107,7 +107,14 @@ def main():
             storage = osf.project(guid).storage()
             with open(local_path, "rb") as f:
                 storage.create_file("codecheck.yml", f, update=True)
-            results.append((f"{sid:03d}", guid, "uploaded"))
+            # osfclient's create_file only checks for status 409; a 403 (no
+            # write access - Daniel not a contributor on that OSF project)
+            # returns just as quietly, so verify the file actually landed.
+            names = [f.path.lstrip("/") for f in storage.files]
+            if "codecheck.yml" in names:
+                results.append((f"{sid:03d}", guid, "uploaded"))
+            else:
+                results.append((f"{sid:03d}", guid, "FAILED: not present after upload (likely no write access)"))
         except Exception as e:
             results.append((f"{sid:03d}", guid, f"error: {e}"))
 

@@ -1,11 +1,12 @@
 # codecheck-tools
 
-Helper scripts for producing the `reports/<submission-id>/codecheck.yml` files
-that register each AGILE reproducibility review with the CODECHECK register
-(https://github.com/codecheckers/register, see issue linked from the year's
-`codecheck.yml.template`). Creating these files is a **recurring annual task**
-at the end of each year's review round. Both scripts use only the Python
-standard library.
+Helper scripts for producing the `reports/<submission-id>/codecheck.yml` files,
+publishing them to OSF, and registering them with the CODECHECK register
+(https://github.com/codecheckers/register, see the issue linked from the year's
+`codecheck.yml.template`). This whole pipeline is a **recurring annual task** at
+the end of each year's review round. `fetch_report_metadata.py`, `gen_codecheck.py`
+and `gen_register_rows.py` use only the Python standard library; `upload_to_osf.py`
+needs `osfclient` (see `requirements.txt`).
 
 ## Workflow
 
@@ -49,6 +50,46 @@ standard library.
    summaries from OSF/ResearchEquals metadata + the report PDF summary section,
    and fill each `manifest` from the report's "Summary of output files generated".
 
+7. **Push this repo's `reports/*/codecheck.yml` and `codecheck-tools/` changes**
+   to `reviews-2026` main (`git push`) — do this *before* the next two steps:
+   `gen_register_rows.py`'s GitHub fallback resolves via `raw.githubusercontent.com`,
+   which only serves committed-and-pushed content.
+
+8. **`upload_to_osf.py`** — publish each `codecheck.yml` at the root of its
+   report's own OSF project (`osf::<guid>` from `REVIEWS`; submissions with GUID
+   `None`, e.g. ResearchEquals-hosted reports, are skipped). Needs `OSF_PAT` in
+   `../.env` (or the environment) with the maintainer's OSF personal access
+   token. Always shows a full review listing first — the OSF project title,
+   its current root file listing, and the exact local file content for every
+   target — and asks for one explicit go-ahead before uploading anything
+   (`--dry-run` stops after the listing; `--confirm` skips only the interactive
+   prompt, never the listing). Verifies after each upload that the file is
+   actually present, because **OSF returns 403 silently through `osfclient`**:
+   `create_file` only raises on HTTP 409, so a permission failure (the
+   maintainer is not a contributor on that particular OSF project — common,
+   since most report projects belong solely to their codechecker) looks
+   identical to success unless you check. Expect only a handful of the OSF
+   projects to actually be writable this way; the rest fall back to GitHub in
+   the next step, automatically.
+
+9. **`gen_register_rows.py`** — writes `register-rows-2026.csv`, the
+   project-local record of what gets submitted to `codecheckers/register`.
+   Prefers `osf::<guid>` but only when a **live check** confirms `codecheck.yml`
+   is actually present in that OSF project (see step 8's caveat) — everything
+   else, including all GUID-less submissions, falls back to
+   `github::reproducible-agile/reviews-2026|reports/<folder>`, verified reachable
+   via a live HEAD request first.
+
+10. **`submit_register_pr.sh [--dry-run]`** — forks `codecheckers/register` (or
+    reuses an existing fork) and syncs it with upstream, does a **shallow**
+    (`--depth 1`) clone into a temp directory (the repo's full history is large
+    - one clone during development pulled >370 MB before being cancelled - and
+    `register.csv` only ever needs editing against current `main`), appends
+    `register-rows-2026.csv`, copies the resulting full `register.csv` back into
+    `codecheck-tools/register.csv` here as a snapshot, commits, pushes the fork
+    branch, and opens the PR referencing the register issue. `--dry-run` does
+    everything except push/open the PR.
+
 ## Notes / gotchas
 
 - Not every published paper has a review — only those with a report DOI (14 in
@@ -58,3 +99,9 @@ standard library.
   nodes without being the codechecker** — trust the PDF's "Codechecker(s)" field.
 - The "Ref. certificate" cell inside some report PDFs contains a mis-pasted
   report DOI, *not* the register certificate number — ignore it.
+- Most codecheckers' OSF report projects belong solely to them, not to the
+  maintainer — expect `upload_to_osf.py` to succeed for only a few and fall
+  back to GitHub for the rest (see step 8/9). This is normal, not a bug to fix.
+- `gh repo fork`'s flags vary by `gh` version (e.g. no `--default-branch-only`,
+  `--clone`/`--remote` are boolean not `--clone=true`) - `submit_register_pr.sh`
+  forks without cloning, then does its own shallow `git clone` of the fork.
