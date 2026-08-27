@@ -1,0 +1,28 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: NA
+    comment: "The AGILE 2026 Reproducibility Review report does not list discrete output files, see https://github.com/codecheckers/register/issues/186 for more information"
+
+paper:
+  title: "Analysis of the spatial and temporal pattern of COVID-19 incidence rate across Germany"
+  authors:
+    - name: Sven Lautenbach
+      ORCID: 0000-0003-1825-9996
+    - name: Marcel Maurer
+      ORCID: 0000-0002-0204-5101
+    - name: Alexander Zipf
+      ORCID: 0000-0003-4916-9838
+  reference: https://doi.org/10.5194/agile-giss-7-9-2026
+
+codechecker:
+  - name: Eftychia Koukouraki
+    ORCID: 0000-0003-0928-1139
+
+report: https://doi.org/10.17605/OSF.IO/DZURB
+summary: |
+  Partially successful reproduction. The authors shared scripts, intermediate results and documented instructions via an anonymous GitHub link. Figures 1-7 and Tables 2 and 3 were verified; the reproduced results were mostly in accordance with the reported results.
+repository: https://github.com/slautenb/covid19germany
+check_time: "2026-06-09 12:00:00"
+certificate: 2026-007

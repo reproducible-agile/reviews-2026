@@ -1,0 +1,38 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: data/figures/decay_curves.pdf
+    comment: "Reproduction of Figure 2"
+  - file: data/output/decay_classif_eval.csv
+    comment: "Reproduction of Table 4 (classification evaluation)"
+  - file: data/output/regression_eval.csv
+    comment: "Reproduction of Table 4 (regression evaluation)"
+  - file: data/figures/prediction_histogram.pdf
+    comment: "Reproduction of Figure 4"
+
+paper:
+  title: "Towards Fine-grained Relevance Scoring of Social Media Posts in Disaster Response: A Decay-based Regression Approach"
+  authors:
+    - name: David Hanny
+      ORCID: 0009-0004-8017-0786
+    - name: Andreas Kramer
+      ORCID: 0009-0006-4763-749X
+    - name: Ehsaneddin Jalilian
+      ORCID: 0000-0001-5925-5735
+    - name: Sebastian Schmidt
+      ORCID: 0000-0003-1912-9771
+    - name: Bernd Resch
+      ORCID: 0000-0002-2233-6926
+  reference: https://doi.org/10.5194/agile-giss-7-4-2026
+
+codechecker:
+  - name: Sophie Teichmann
+    ORCID: 0000-0002-4314-8107
+
+report: https://doi.org/10.17605/OSF.IO/ZPURT
+summary: |
+  Full reproduction. Using the materials provided by the authors, the reported results were successfully reproduced.
+repository: https://github.com/reproducible-agile/GSAI_PUBLIC_Multimodal_Relevance_Regression
+check_time: "2026-03-19 12:00:00"
+certificate: 2026-006

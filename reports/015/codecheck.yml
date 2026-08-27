@@ -1,0 +1,32 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: ~result/Figure_1.png
+    comment: "Regenerated Figure 1 (system strengths identified by the participant groups)"
+  - file: ~result/Figure_2.png
+    comment: "Regenerated Figure 2 (system strengths identified by the participant groups)"
+  - file: ~result/regenerate_figures.xlsx
+    comment: "Spreadsheet regenerating the figures; Keywords_Pro&Con.pdf holds the aggregated thematic category counts"
+
+paper:
+  title: "Enhancing the Potential of a Tangible-Digital Planning Interface through User Evaluation"
+  authors:
+    - name: Vincent Holtorf
+      ORCID: 0009-0008-4486-531X
+    - name: Maria Moleiro Dale
+      ORCID: 0000-0001-7655-1309
+    - name: Jörg Rainer Noennig
+      ORCID: 0000-0002-1681-7635
+  reference: https://doi.org/10.5194/agile-giss-7-5-2026
+
+codechecker:
+  - name: Jeonghwan Choi
+    ORCID: 0009-0002-5027-1151
+
+report: https://doi.org/10.17605/OSF.IO/KCPZE
+summary: |
+  Full reproduction. The submission is based on a qualitative framework and spreadsheet-based analysis rather than custom programming. The reviewer reviewed the materials in the repository (data and analysis materials archived at https://doi.org/10.5281/zenodo.18195076) and reproduced the reported figures.
+repository: https://github.com/reproducible-agile/COUP-TangibleTable
+check_time: "2026-03-19 12:00:00"
+certificate: 2026-009

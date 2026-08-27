@@ -1,0 +1,27 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: NA
+    comment: "The AGILE 2026 Reproducibility Review report does not list discrete output files, see https://github.com/codecheckers/register/issues/186 for more information"
+
+paper:
+  title: "OpenStreetMap Suitability Analysis for Wheelchair Routing"
+  authors:
+    - name: Ivan Majic
+      ORCID: 0000-0002-0834-3791
+    - name: Thomas Gegenleithner
+    - name: Johannes Scholz
+      ORCID: 0000-0002-3212-8864
+  reference: https://doi.org/10.5194/agile-giss-7-12-2026
+
+codechecker:
+  - name: Egor Kotov
+    ORCID: 0000-0001-6690-5345
+
+report: https://doi.org/10.17605/OSF.IO/8C3VF
+summary: |
+  Reproduction using the authors' updated data package (v2), covering the full pipeline including database setup and all analysis notebooks (01 to 04). While the v2 package significantly improved structure and documentation, several surgical fixes were still required to address environment-specific dependency conflicts, undocumented tool behaviors, and logic bugs in the provided scripts. All notebooks were ultimately executed successfully.
+repository: https://doi.org/10.6084/m9.figshare.31333180
+check_time: "2026-04-25 12:00:00"
+certificate: 2026-017

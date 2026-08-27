@@ -1,0 +1,30 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: NA
+    comment: "The AGILE 2026 Reproducibility Review report does not list discrete output files, see https://github.com/codecheckers/register/issues/186 for more information"
+
+paper:
+  title: "Inclusive Multimodal Routing: How Behavioral Constraints Shape Accessibility"
+  authors:
+    - name: Ioanna Gogousou
+      ORCID: 0009-0001-3200-7202
+    - name: Manuela Canestrini
+      ORCID: 0009-0005-1501-8398
+    - name: Negar Alinaghi
+      ORCID: 0000-0001-6594-4481
+    - name: Ioannis Giannopoulos
+      ORCID: 0000-0002-2556-5230
+  reference: https://doi.org/10.5194/agile-giss-7-3-2026
+
+codechecker:
+  - name: Egor Kotov
+    ORCID: 0000-0001-6690-5345
+
+report: https://doi.org/10.17605/OSF.IO/R2674
+summary: |
+  Reproduction of the multimodal routing analysis for the city of Vienna, investigating how routing outcomes change under behavioral constraints. The full pipeline (baseline routing, inclusive baseline routing, 12 parameter-variation scenarios, data grouping and visualization) was completed in a single, fully automated run on HPC resources. The reproduction was fully successful.
+repository: https://github.com/e-kotov/agile-2026review-paper-007
+check_time: "2026-03-15 12:00:00"
+certificate: 2026-004

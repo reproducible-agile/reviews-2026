@@ -1,0 +1,30 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: NA
+    comment: "The AGILE 2026 Reproducibility Review report does not list discrete output files, see https://github.com/codecheckers/register/issues/186 for more information"
+
+paper:
+  title: "Generalizability of Foundation Models: A Case Study on Cocoa Mapping Across Countries Using Sparse Labels"
+  authors:
+    - name: Ruslan Mammadov
+      ORCID: 0009-0006-3516-9852
+    - name: Paul Walther
+      ORCID: 0000-0002-5101-5793
+    - name: Julius Fricke
+      ORCID: 0009-0005-7709-8178
+    - name: Martin Werner
+      ORCID: 0000-0002-6951-8022
+  reference: https://doi.org/10.5194/agile-giss-7-13-2026
+
+codechecker:
+  - name: Joseph Shingleton
+    ORCID: 0000-0002-1628-3231
+
+report: https://doi.org/10.17605/OSF.IO/YH8F6
+summary: |
+  Partial reproduction of the foundation-model cocoa-mapping study. The provided code and data allowed the workflow to be run, though some files in the repository were differentiated only by path rather than filename, complicating the reproduction.
+repository: https://github.com/osapiens-Terra-GmbH/2026-AGILE-CocoaMapping
+check_time: "2026-03-31 12:00:00"
+certificate: 2026-008

@@ -1,0 +1,28 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: repro_rev_2026_29_notebook.html
+    comment: "Notebook reproducing the third part of the analysis and its main figures"
+
+paper:
+  title: "Assessing the Geographic Diversity of AI's Platial Representations in Image Generation"
+  authors:
+    - name: Zilong Liu
+      ORCID: 0000-0002-7699-3366
+    - name: Krzysztof Janowicz
+      ORCID: 0009-0003-1968-887X
+    - name: Mina Karimi
+      ORCID: 0000-0003-2521-8164
+  reference: https://doi.org/10.5194/agile-giss-7-10-2026
+
+codechecker:
+  - name: Frank O. Ostermann
+    ORCID: 0000-0002-9317-8291
+
+report: https://doi.org/10.17605/OSF.IO/VCGY2
+summary: |
+  Successful but partial reproduction. The third part of the analysis reproduced smoothly, with all figures identical to the ones produced for the paper.
+repository: https://github.com/zilongliu-geo/image-gen-geodiversity
+check_time: "2026-04-10 12:00:00"
+certificate: 2026-015

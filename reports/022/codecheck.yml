@@ -1,0 +1,32 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: ~result/orientation_orig.png
+    comment: "Distribution of facade orientations (LoD2 preprocessing)"
+  - file: ~result/wwr_orig.png
+    comment: "Window-to-wall ratio values"
+  - file: ~result/swa_orig.png
+    comment: "Surface area values"
+  - file: ~result/index_weighted.png
+    comment: "Weighted vertical greenery potential index"
+
+paper:
+  title: "Maximizing Data Coverage: Fusing Street View and Oblique Imagery to Quantify Vertical Greenery Potential in Urban Areas"
+  authors:
+    - name: Aruscha Kramm
+      ORCID: 0009-0002-7801-9388
+    - name: André Ludwig
+    - name: Bogdan Franczyk
+  reference: https://doi.org/10.5194/agile-giss-7-8-2026
+
+codechecker:
+  - name: Jeonghwan Choi
+    ORCID: 0009-0002-5027-1151
+
+report: https://doi.org/10.17605/OSF.IO/HETV8
+summary: |
+  Partially reproducible. The LoD2 preprocessing step (distribution of façade orientations) was reproduced successfully, confirming successful preprocessing; other manuscript outputs could be reproduced only partially.
+repository: https://github.com/reproducible-agile/Quantify-VGS
+check_time: "2026-03-13 12:00:00"
+certificate: 2026-013

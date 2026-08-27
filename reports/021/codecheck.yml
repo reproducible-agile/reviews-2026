@@ -1,0 +1,30 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: NA
+    comment: "The AGILE 2026 Reproducibility Review report does not list discrete output files, see https://github.com/codecheckers/register/issues/186 for more information"
+
+paper:
+  title: "Spatio-Temporal Knowledge Graph from Unstructured Texts: A Multi-Scale Approach for Food Security Monitoring"
+  authors:
+    - name: Charles Abdoulaye Ngom
+      ORCID: 0009-0007-4540-4112
+    - name: Landy Rajaonarivo
+      ORCID: 0000-0003-1831-270X
+    - name: Maguelonne Teisseire
+      ORCID: 0000-0001-9313-6414
+    - name: Sarah Valentin
+      ORCID: 0000-0002-9028-681X
+  reference: https://doi.org/10.5194/agile-giss-7-16-2026
+
+codechecker:
+  - name: Sophie Teichmann
+    ORCID: 0000-0002-4314-8107
+
+report: https://doi.org/10.17605/OSF.IO/BV4MK
+summary: |
+  Partial reproduction. The authors provided a well-documented GitHub repository with detailed instructions; Table 2 was recreated with the provided script. A full reproduction requires substantial computational resources (in particular the fine-tuning in Step 2).
+repository: https://github.com/reproducible-agile/STKGFS
+check_time: "2026-04-10 12:00:00"
+certificate: 2026-012

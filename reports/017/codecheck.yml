@@ -1,0 +1,34 @@
+---
+version: https://codecheck.org.uk/spec/config/1.0/
+
+manifest:
+  - file: repro_rev_2026_17_notebook.html
+    comment: "Notebook reproducing the sample-data LiDAR vegetation-metrics workflow"
+
+paper:
+  title: "Towards National-Scale Ecological Applications: Harmonised Framework for LiDAR Point Cloud Processing for Vegetation Metrics Calculation"
+  authors:
+    - name: Eveli Sisas
+      ORCID: 0009-0002-5032-249X
+    - name: Holger Virro
+      ORCID: 0000-0001-6110-5453
+    - name: Wai Tik Chan
+      ORCID: 0009-0005-3779-139X
+    - name: Alexander Kmoch
+      ORCID: 0000-0003-4386-4450
+    - name: Aveliina Helm
+      ORCID: 0000-0003-2338-4564
+    - name: Evelyn Uuemaa
+      ORCID: 0000-0002-0782-6740
+  reference: https://doi.org/10.5194/agile-giss-7-18-2026
+
+codechecker:
+  - name: Frank O. Ostermann
+    ORCID: 0000-0002-9317-8291
+
+report: https://doi.org/10.17605/OSF.IO/75PWN
+summary: |
+  Full reproduction of a sample data set. A complete reproduction was infeasible as part of the review due to the computational environment required for the national-scale workflow, but the successful reproduction of a sample data set demonstrates the overall reproducibility of the study.
+repository: https://doi.org/10.5281/zenodo.17867739
+check_time: "2026-03-31 12:00:00"
+certificate: 2026-011
