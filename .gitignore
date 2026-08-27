@@ -31,3 +31,4 @@ reports/026/agile-2026_reproducibility-review_026.pdf
 .env
 
 *.pdf
+__pycache__/

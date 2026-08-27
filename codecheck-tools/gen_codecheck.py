@@ -145,7 +145,8 @@ MANIFEST = {
 
 def q(s): return '"' + s.replace('"','\\"') + '"'
 
-for sub,d in data.items():
+def main():
+  for sub,d in data.items():
     lines=[]
     lines.append("---")
     lines.append("version: https://codecheck.org.uk/spec/config/1.0/")
@@ -185,4 +186,7 @@ for sub,d in data.items():
     path=os.path.join(folder,"codecheck.yml")
     with open(path,"w") as f: f.write("\n".join(lines))
     print("wrote",path)
-print("TOTAL",len(data))
+  print("TOTAL",len(data))
+
+if __name__ == "__main__":
+    main()
